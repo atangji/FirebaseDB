@@ -9,7 +9,6 @@ public class Tipo implements Parcelable {
     String tipo_nombre;
 
     public Tipo() {
-
     }
 
     public Tipo(String id, String tipo_nombre) {

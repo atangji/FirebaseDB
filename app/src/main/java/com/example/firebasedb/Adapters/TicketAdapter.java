@@ -81,8 +81,8 @@ public class ViewHolderTicket extends RecyclerView.ViewHolder {
     public void bindTicket(Ticket t){
         ticket=t;
         tvFecha.setText(t.getFecha_creacion());
-        tvSede.setText(t.getSedeobj().getDireccion());
-        tvTipo.setText(t.getTipoobj().getTipo_nombre());
+         tvSede.setText(t.getSedeobj().getDireccion());
+         tvTipo.setText(t.getTipoobj().getTipo_nombre());
     }
 
 
