@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             Tipo tipo  = dataSnapshot.getValue(Tipo.class);
                                             ticket.setTipoobj(tipo);
-                                            Log.i("asads","asdas");
+
 
                                             tickets_array.add(ticket);
                                             TicketAdapter adapter = new TicketAdapter(tickets_array);
