@@ -134,7 +134,7 @@ public class Ticket implements Parcelable {
         return tipo;
     }
 
-    public void setTipo(HashMap<String, Boolean> sede) {
+    public void setTipo(HashMap<String, Boolean> tipo) {
         this.tipo = tipo;
     }
 

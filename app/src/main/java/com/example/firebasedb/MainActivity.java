@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void cargarTicketFirebase(){
-
+        final Ticket ticket;
         mDatabase = FirebaseDatabase.getInstance().getReference("ticket");
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -63,39 +63,41 @@ public class MainActivity extends AppCompatActivity {
                                 Sede sede  = dataSnapshot.getValue(Sede.class);
                                 ticket.setSedeobj(sede);
 
+                                //Al objeto sede le obtengo el HasMap de poblacion
+                                for(Map.Entry<String,Boolean> entry: ticket.getTipo().entrySet()){
 
+                                    String id_tipo = entry.getKey();
+
+                                    FirebaseDatabase.getInstance().getReference("tipo").child(id_tipo).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Tipo tipo  = dataSnapshot.getValue(Tipo.class);
+                                            ticket.setTipoobj(tipo);
+                                            Log.i("asads","asdas");
+
+                                            tickets_array.add(ticket);
+                                            TicketAdapter adapter = new TicketAdapter(tickets_array);
+                                            rvTicket.setAdapter(adapter);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                                Log.i("ERROR SEDE", databaseError.getMessage());
                             }
                         });
                     }
 
-                    //Al objeto sede le obtengo el HasMap de poblacion
-//                      for(Map.Entry<String,Boolean> entry: ticket.getTipo().entrySet()){
-//
-//                        String id_tipo = entry.getKey();
-//
-//                        FirebaseDatabase.getInstance().getReference("tipo").child(id_tipo).addListenerForSingleValueEvent(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                                Tipo tipo  = dataSnapshot.getValue(Tipo.class);
-//                                ticket.setTipoobj(tipo);
-//                                Log.i("asads","asdas");
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//                    }
 
-                   tickets_array.add(ticket);
-                    TicketAdapter adapter = new TicketAdapter(tickets_array);
-                    rvTicket.setAdapter(adapter);
+
+
 
                 }
 
