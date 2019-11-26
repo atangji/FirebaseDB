@@ -14,87 +14,149 @@
         android:layout_gravity="center"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/eTextTipoTicket"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/tipo_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
-
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tViewNumTioket"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Sede:" />
+            android:paddingBottom="10dp"
+            android:text="@string/numTicket"
+            android:textColor="#F83A2E2E" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tViewTipoticket"
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Tipo ticket:"
+                android:textColor="#F44336" />
+
+            <EditText
+                android:id="@+id/eTextTipoTicket"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_ticket"
+                android:paddingBottom="10dp"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Sede:"
+                android:textColor="#F44336" />
 
         <EditText
             android:id="@+id/eTextSedeTicket"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/sede_ticket"
             android:paddingBottom="10dp"
             android:textSize="15dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Fecha creación:" />
+            android:text="Creado:"
+            android:textColor="#F44336" />
 
         <EditText
             android:id="@+id/eTextFechaCreacion"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fecha_ticket"
             android:paddingBottom="10dp"
             android:textSize="15dp" />
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Detalle Ticket:" />
+            android:text="Detalle:"
+            android:textColor="#F44336" />
+
 
         <EditText
             android:id="@+id/eTextDetalleTicket"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/detalle_ticket"
             android:paddingBottom="10dp"
             android:textSize="15dp" />
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Fecha solución:" />
+            android:text="Modificado:"
+            android:textColor="#F44336" />
 
         <EditText
             android:id="@+id/eTextFechaSolTicket"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fecha_solucion_ticket"
             android:paddingBottom="10dp"
             android:textSize="15dp" />
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="90dp"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="Solución:" />
+            android:text="Solución:"
+            android:textColor="#F44336" />
 
         <EditText
             android:id="@+id/eTextSolucionTicket"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/solucion_ticket"
             android:paddingBottom="10dp"
             android:textSize="15dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:text="Creación ticket"
+            android:text="Nueva sede"
             android:textAllCaps="true"
             android:textColor="#F83A2E2E"
             android:textSize="17sp"
@@ -32,17 +32,18 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="90dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:text="Tipo ticket:"
+                android:text="Dirección:"
                 android:textColor="#F44336" />
 
-            <Spinner
-                android:id="@+id/eTextTipoTicket"
-                android:layout_width="wrap_content"
+
+            <EditText
+                android:id="@+id/eTextSedeDir"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:entries="@array/tipo_ticket"
+                android:hint="@string/sede_direccion"
                 android:paddingBottom="10dp"
                 android:textSize="15dp" />
 
@@ -54,41 +55,73 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="90dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
-                android:text="Sede:"
+                android:text="Codigo postal:"
                 android:textColor="#F44336" />
 
-            <EditText
-                android:id="@+id/eTextSedeTicket"
+            <Spinner
+                android:id="@+id/eTextCPSede"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/sede_ticket"
+                android:entries="@array/codigo_postal"
                 android:paddingBottom="10dp"
                 android:textSize="15dp" />
 
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Detalle Ticket:"
-            android:textColor="#F44336" />
-
-        <EditText
-            android:id="@+id/eTextDetalleTicket"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/detalle_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Poblacion:"
+                android:textColor="#F44336" />
+
+            <Spinner
+                android:id="@+id/eTextProvinciaSede"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/poblacion"
+                android:paddingBottom="10dp"
+                android:textSize="15dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Provincia:"
+                android:textColor="#F44336" />
+
+            <Spinner
+                android:id="@+id/eTextPoblacionSede"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/provincia"
+                android:paddingBottom="10dp"
+                android:textSize="15dp" />
+
+
+        </LinearLayout>
+
 
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabSedes"
+        android:id="@+id/fabCrearSede"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"

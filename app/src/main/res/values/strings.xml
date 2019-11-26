@@ -17,4 +17,19 @@
         <item>Petición</item>
         <item>Incidencia</item>
     </string-array>
+    <string name="numTicket">Num ticket: 123467322424</string>
+
+    <string name="sede_direccion">Nombre calle y número</string>
+    <string-array name="codigo_postal">
+        <item>08760</item>
+        <item>28820</item>
+    </string-array>
+    <string-array name="provincia">
+        <item>Barcelona</item>
+        <item>Madrid</item>
+    </string-array>
+    <string-array name="poblacion">
+        <item>Martorell</item>
+        <item>Madrid</item>
+    </string-array>
 </resources>
