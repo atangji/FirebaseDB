@@ -30,7 +30,7 @@ public class SedeAdapter  extends RecyclerView.Adapter<SedeAdapter.ViewHolderSed
     public SedeAdapter.ViewHolderSede onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
         View itemView = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_ticket, viewGroup, false);
+                .inflate(R.layout.item_sede, viewGroup, false);
 
         itemView.setOnClickListener(this);
         SedeAdapter.ViewHolderSede tvh = new SedeAdapter.ViewHolderSede(itemView, viewGroup.getContext());

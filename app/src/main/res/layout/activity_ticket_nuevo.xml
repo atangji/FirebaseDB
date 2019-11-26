@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    tools:context=".activity_ticket_detalle">
+
+    <LinearLayout
+        android:layout_width="339dp"
+        android:layout_height="230dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Tipo ticket:" />
+
+            <Spinner
+                android:id="@+id/eTextTipoTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/tipo_ticket"
+                android:paddingBottom="10dp"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="Sede:" />
+
+            <EditText
+                android:id="@+id/eTextSedeTicket"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/sede_ticket"
+                android:paddingBottom="10dp"
+                android:textSize="15dp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:text="Detalle Ticket:" />
+
+        <EditText
+            android:id="@+id/eTextDetalleTicket"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/detalle_ticket"
+            android:paddingBottom="10dp"
+            android:textSize="15dp" />
+
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSedes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_agregar"
+        app:backgroundTint="#F44336"
+        app:layout_behavior=".MyBehavior"
+        app:rippleColor="#00E2D1D1">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+</LinearLayout>

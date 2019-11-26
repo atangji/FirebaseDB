@@ -121,6 +121,7 @@ public class Ticket implements Parcelable {
     public void setUsuobj(Usuario usuobj) {
         this.usuobj = usuobj;
     }
+
     public HashMap<String, Boolean> getSede() {
         return sede;
     }

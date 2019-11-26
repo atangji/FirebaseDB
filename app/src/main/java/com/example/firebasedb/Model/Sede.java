@@ -81,11 +81,11 @@ public class Sede implements Parcelable{
         return poblacion;
     }
 
+
     public Poblacion getPoblobj() {
         return poblobj;
     }
-    public void setPoblobj(HashMap<String, Boolean> poblacion) {
-        this.poblacion = poblacion;
-    }
 
+
+    public void setPoblobj(Poblacion poblobj) { this.poblobj = poblobj; }
 }

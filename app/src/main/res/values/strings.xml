@@ -3,4 +3,18 @@
     <string name="enter_mail">Inserta un correo electrónico</string>
     <string name="enter_password">Escribe una contraseña</string>
     <string name="login">Loguin</string>
+    <string name="btnVerSede">Ver sedes</string>
+    <string name="titulo_sedes">Sedes</string>
+    <string name="titulo_main">Tickets</string>
+
+    <string name="tipo_ticket">Tipo ticket</string>
+    <string name="fecha_ticket">fecha ticket</string>
+    <string name="detalle_ticket">detalle</string>
+    <string name="sede_ticket">direccion, cp, poblacion</string>
+    <string name="solucion_ticket">solucion</string>
+    <string name="fecha_solucion_ticket">fecha solucion</string>
+    <string-array name="tipo_ticket">
+        <item>Petición</item>
+        <item>Incidencia</item>
+    </string-array>
 </resources>

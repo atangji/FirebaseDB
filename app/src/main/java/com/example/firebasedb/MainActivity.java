@@ -4,15 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+import android.widget.Toolbar;
 
+import com.example.firebasedb.Adapters.SedeAdapter;
 import com.example.firebasedb.Adapters.TicketAdapter;
 import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,14 +31,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.widget.Toast.*;
+
 public class MainActivity extends AppCompatActivity {
     RecyclerView rvTicket;
     ArrayList<Ticket> tickets_array = new ArrayList<Ticket>();
+    Button btnSede;
+    FloatingActionButton fabSedes;
+    FloatingActionButton fabNuevoTicket;
+
+
+
     private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+        fabSedes = (FloatingActionButton) findViewById(R.id.fabSedes);
 
         rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
         rvTicket.setHasFixedSize(true);
@@ -39,7 +59,26 @@ public class MainActivity extends AppCompatActivity {
         cargarTicketFirebase();
 
 
+
+        FloatingActionButton fabSedes = (FloatingActionButton) findViewById(R.id.fabSedes);
+        fabSedes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(v.getContext(), SedeActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+
+
+
+
     }
+
+
+
 
 
     private void cargarTicketFirebase(){
@@ -113,6 +152,13 @@ public class MainActivity extends AppCompatActivity {
         };
         mDatabase.addValueEventListener(postListener);
     }
+
+
+
+
+
+
+
 
 
 }
