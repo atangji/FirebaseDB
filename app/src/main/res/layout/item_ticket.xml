@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="@dimen/cardview_default_elevation"
     android:layout_height="wrap_content">
 
 <LinearLayout
@@ -16,11 +19,13 @@
         android:id="@+id/tvFecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/tvSede"
         android:layout_width="match_parent"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
@@ -28,6 +33,8 @@
         android:id="@+id/tvTipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="TextView" />
 </LinearLayout>
 

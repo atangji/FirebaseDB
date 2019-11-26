@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
-    tools:context=".activity_ticket_detalle">
+    tools:context=".DetalleTicketActivity">
 
     <LinearLayout
         android:layout_width="332dp"
@@ -22,8 +22,6 @@
             android:paddingBottom="10dp"
             android:text="@string/numTicket"
             android:textColor="#F83A2E2E" />
-
-
 
         <LinearLayout
             android:layout_width="match_parent"

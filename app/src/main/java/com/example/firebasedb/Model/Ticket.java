@@ -42,10 +42,14 @@ public class Ticket implements Parcelable {
         this.usuobj = tipousu;
     }
 
+
     protected Ticket(Parcel in) {
         comentario = in.readString();
         fecha_creacion = in.readString();
         id = in.readString();
+        sedeobj = in.readParcelable(Sede.class.getClassLoader());
+        tipoobj = in.readParcelable(Tipo.class.getClassLoader());
+        usuobj = in.readParcelable(Usuario.class.getClassLoader());
     }
 
     public static final Creator<Ticket> CREATOR = new Creator<Ticket>() {
@@ -84,18 +88,6 @@ public class Ticket implements Parcelable {
         this.id = id;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(comentario);
-        dest.writeString(fecha_creacion);
-        dest.writeString(id);
-    }
 
 
     public Sede getSedeobj() {
@@ -148,4 +140,18 @@ public class Ticket implements Parcelable {
         this.usuarios = usuarios;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(comentario);
+        dest.writeString(fecha_creacion);
+        dest.writeString(id);
+        dest.writeParcelable(sedeobj, flags);
+        dest.writeParcelable(tipoobj, flags);
+        dest.writeParcelable(usuobj, flags);
+    }
 }

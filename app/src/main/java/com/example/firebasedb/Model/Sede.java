@@ -32,9 +32,11 @@ public class Sede implements Parcelable{
         this.poblobj = poblobj;
     }
 
+
     protected Sede(Parcel in) {
         id = in.readString();
         direccion = in.readString();
+        poblobj = in.readParcelable(Poblacion.class.getClassLoader());
     }
 
     public static final Creator<Sede> CREATOR = new Creator<Sede>() {
@@ -65,17 +67,7 @@ public class Sede implements Parcelable{
         this.direccion = direccion;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(id);
-        dest.writeString(direccion);
-    }
 
     public HashMap<String, Boolean> getPoblacion() {
         return poblacion;
@@ -88,4 +80,16 @@ public class Sede implements Parcelable{
 
 
     public void setPoblobj(Poblacion poblobj) { this.poblobj = poblobj; }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(direccion);
+        dest.writeParcelable(poblobj, flags);
+    }
 }

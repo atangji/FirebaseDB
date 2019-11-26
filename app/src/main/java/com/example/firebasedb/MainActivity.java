@@ -117,6 +117,16 @@ public class MainActivity extends AppCompatActivity {
                                             tickets_array.add(ticket);
                                             TicketAdapter adapter = new TicketAdapter(tickets_array);
                                             rvTicket.setAdapter(adapter);
+                                            adapter.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+
+                                                 Ticket t = tickets_array.get(rvTicket.getChildAdapterPosition(v));
+                                                 Intent i = new Intent(getApplicationContext(), DetalleTicketActivity.class);
+                                                 i.putExtra("TICKET", t);
+                                                 startActivity(i);
+                                                }
+                                            });
                                         }
 
                                         @Override
