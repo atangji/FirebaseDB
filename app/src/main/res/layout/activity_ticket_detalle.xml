@@ -1,161 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal|center_vertical"
-    android:orientation="vertical"
+    android:padding="8dp"
     tools:context=".DetalleTicketActivity">
 
-    <LinearLayout
-        android:layout_width="332dp"
-        android:layout_height="490dp"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tViewNumTioket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/numTicket"
+        android:textColor="#F83A2E2E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tViewTipoticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Tipo ticket:"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tViewNumTioket" />
+
+    <EditText
+        android:id="@+id/eTextTipoTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tipo_ticket"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tViewTipoticket" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sede:"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTextTipoTicket" />
+
+    <EditText
+        android:id="@+id/eTextSedeTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sede_ticket"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Creado:"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTextSedeTicket" />
+
+    <EditText
+        android:id="@+id/eTextFechaCreacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/fecha_ticket"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Detalle:"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTextFechaCreacion" />
+
+    <EditText
+        android:id="@+id/eTextDetalleTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/detalle_ticket"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Modificado:"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTextDetalleTicket" />
+
+    <EditText
+        android:id="@+id/eTextFechaSolTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/fecha_solucion_ticket"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Solución:"
+        android:textColor="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTextFechaSolTicket" />
 
 
-        <TextView
-            android:id="@+id/tViewNumTioket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:text="@string/numTicket"
-            android:textColor="#F83A2E2E" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tViewTipoticket"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="Tipo ticket:"
-                android:textColor="#F44336" />
-
-            <EditText
-                android:id="@+id/eTextTipoTicket"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/tipo_ticket"
-                android:paddingBottom="10dp"
-                android:textSize="15dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:text="Sede:"
-                android:textColor="#F44336" />
-
-        <EditText
-            android:id="@+id/eTextSedeTicket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/sede_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Creado:"
-            android:textColor="#F44336" />
-
-        <EditText
-            android:id="@+id/eTextFechaCreacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/fecha_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Detalle:"
-            android:textColor="#F44336" />
-
-
-        <EditText
-            android:id="@+id/eTextDetalleTicket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/detalle_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Modificado:"
-            android:textColor="#F44336" />
-
-        <EditText
-            android:id="@+id/eTextFechaSolTicket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/fecha_solucion_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-        <TextView
-            android:layout_width="90dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp"
-            android:text="Solución:"
-            android:textColor="#F44336" />
-
-        <EditText
-            android:id="@+id/eTextSolucionTicket"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/solucion_ticket"
-            android:paddingBottom="10dp"
-            android:textSize="15dp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</LinearLayout>
+    <EditText
+        android:id="@+id/eTextSolucionTicket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/solucion_ticket"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+</androidx.constraintlayout.widget.ConstraintLayout>
