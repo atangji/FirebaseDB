@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;

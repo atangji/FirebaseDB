@@ -27,7 +27,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.firebasedb.MainActivity" />
         </activity>
-        <activity android:name=".DetalleTicketActivity" />
+
+        <activity android:name=".DetalleTicketActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.example.firebasedb.MainActivity" />
+        </activity>
+
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"

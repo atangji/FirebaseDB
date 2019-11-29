@@ -1,8 +1,10 @@
 package com.example.firebasedb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
 import com.example.firebasedb.Adapters.TicketAdapter;
@@ -10,6 +12,7 @@ import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,7 +31,7 @@ public class SedeActivity extends AppCompatActivity {
 
     RecyclerView rvSede;
     ArrayList<Sede> sedes_array = new ArrayList<Sede>();
-
+    FloatingActionButton fabInsertarSede;
 
     private DatabaseReference mDatabase;
 
@@ -46,6 +49,15 @@ public class SedeActivity extends AppCompatActivity {
         cargarSedeFirebase();
 
 
+        FloatingActionButton fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
+        fabInsertarSede.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(v.getContext(), InsertarSedeActivity.class);
+                startActivity(i);
+            }
+        });
 
 
     }
@@ -53,6 +65,8 @@ public class SedeActivity extends AppCompatActivity {
 
     private void cargarSedeFirebase() {
         final Sede sede;
+
+        fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
         mDatabase = FirebaseDatabase.getInstance().getReference("sede");
         ValueEventListener postListener = new ValueEventListener() {
             @Override

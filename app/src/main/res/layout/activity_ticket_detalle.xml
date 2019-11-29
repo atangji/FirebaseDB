@@ -12,6 +12,7 @@
         android:id="@+id/tViewNumTioket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/numTicket"
         android:textColor="#F83A2E2E"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,18 +24,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Tipo ticket:"
-        android:textColor="#F44336"
+        android:text="TIPO TICKET:"
+        android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tViewNumTioket" />
 
-    <EditText
-        android:id="@+id/eTextTipoTicket"
+    <TextView
+        android:id="@+id/tvTipoTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/tipo_ticket"
-        android:textSize="15dp"
+        android:textColor="#4A4D4E"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tViewTipoticket" />
@@ -45,17 +46,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Sede:"
-        android:textColor="#F44336"
+        android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextTipoTicket" />
+        app:layout_constraintTop_toBottomOf="@+id/tvTipoTicket" />
 
-    <EditText
-        android:id="@+id/eTextSedeTicket"
+    <TextView
+        android:id="@+id/tvSedeTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/sede_ticket"
-        android:textSize="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#4A4D4E"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -66,17 +67,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Creado:"
-        android:textColor="#F44336"
+        android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextSedeTicket" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSedeTicket" />
 
-    <EditText
-        android:id="@+id/eTextFechaCreacion"
+    <TextView
+        android:id="@+id/tvFechaCreacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/fecha_ticket"
-        android:textSize="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#4A4D4E"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -87,17 +88,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Detalle:"
-        android:textColor="#F44336"
+        android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextFechaCreacion" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFechaCreacion" />
 
-    <EditText
-        android:id="@+id/eTextDetalleTicket"
+    <TextView
+        android:id="@+id/tvDetalleTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/detalle_ticket"
-        android:textSize="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="#4A4D4E"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -108,20 +109,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Modificado:"
-        android:textColor="#F44336"
+        android:textAlignment="viewStart"
+        android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextDetalleTicket" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDetalleTicket" />
 
-    <EditText
-        android:id="@+id/eTextFechaSolTicket"
+    <TextView
+        android:id="@+id/tvFechaSolTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/fecha_solucion_ticket"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:textColor="#4A4D4E"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
 
     <TextView
         android:id="@+id/textView13"
@@ -129,19 +131,54 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Solución:"
-        android:textColor="#F44336"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textAlignment="viewStart"
+        android:textColor="#E60000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextFechaSolTicket" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFechaSolTicket" />
 
-
-    <EditText
-        android:id="@+id/eTextSolucionTicket"
+    <TextView
+        android:id="@+id/tvSolucionTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/solucion_ticket"
-        android:textSize="15dp"
+        android:layout_below="@+id/textView13"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <EditText
+        android:id="@+id/etTextSolucion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Introduce tu solucion"
+        android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSolucionTicket" />
+
+    <Button
+        android:id="@+id/btnInsertarSol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/buttonred_2"
+        android:text="+ Insertar"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ckboxResuelto" />
+
+    <CheckBox
+        android:id="@+id/ckboxResuelto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Resuelto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTextSolucion" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
