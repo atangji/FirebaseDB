@@ -11,6 +11,7 @@ public class Resolucion implements Parcelable {
     String comentario;
     String backend;
     HashMap<String, Boolean> ticket;
+    Boolean resuelto;
 
 
     public Resolucion(){
@@ -18,11 +19,12 @@ public class Resolucion implements Parcelable {
     }
 
 
-    public Resolucion(String fecha, String comentario, String backend, HashMap<String, Boolean> ticket) {
+    public Resolucion(String fecha, String comentario, String backend, HashMap<String, Boolean> ticket, Boolean resuelto)  {
         this.fecha = fecha;
         this.comentario = comentario;
         this.backend = backend;
         this.ticket = ticket;
+        this.resuelto =resuelto;
     }
 
 
@@ -31,8 +33,10 @@ public class Resolucion implements Parcelable {
         fecha = in.readString();
         comentario = in.readString();
         backend = in.readString();
-        byte tmpResuelto = in.readByte();
+        byte resuelto = in.readByte();
+
     }
+
 
     public static final Creator<Resolucion> CREATOR = new Creator<Resolucion>() {
         @Override
@@ -70,8 +74,13 @@ public class Resolucion implements Parcelable {
         this.backend = backend;
     }
 
+    public Boolean getResuelto() {
+        return resuelto;
+    }
 
-
+    public void setResuelto(Boolean resuelto) {
+        this.resuelto = resuelto;
+    }
 
     @Override
     public int describeContents() {
@@ -83,8 +92,9 @@ public class Resolucion implements Parcelable {
         dest.writeString(fecha);
         dest.writeString(comentario);
         dest.writeString(backend);
+        dest.writeString(String.valueOf(ticket));
+        dest.writeByte((byte) (resuelto ? 1 : 0));
     }
-
 
     public HashMap<String, Boolean> getTicket() {
         return ticket;

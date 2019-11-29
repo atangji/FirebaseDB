@@ -64,7 +64,6 @@ public class DetalleTicketActivity extends AppCompatActivity {
             tvSedeTicket.setText((t.getSedeobj().getDireccion()));
             tvFechaCreacion.setText(t.getFecha_creacion());
             tvDetalleTicket.setText(t.getComentario());
-
             cargarResolucion();
         }
     }
@@ -79,11 +78,11 @@ public class DetalleTicketActivity extends AppCompatActivity {
         tvDetalleTicket = (TextView) findViewById(R.id.tvDetalleTicket);
         etSolucion = (EditText) findViewById(R.id.etTextSolucion);
         btnInsertar = (Button) findViewById(R.id.btnInsertarSol);
-       // ckboxResuelto = (CheckBox) findViewById(R.id.ckboxResuelto);
+        ckboxResuelto = (CheckBox) findViewById(R.id.ckboxResuelto);
 
-        //if(ckboxResuelto.isChecked()){
-          //  resuelto = true;
-        //}
+        if(ckboxResuelto.isChecked()){
+            resuelto = true;
+        }
 
         btnInsertar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +93,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
                 }else{
                     HashMap<String, Boolean> idTicket = new HashMap<>();
                     idTicket.put(t.getId(),true);
-                    Resolucion nuevaResolucion = new Resolucion(fecha, etSolucion.getText().toString(),"backend",idTicket);
+                    Resolucion nuevaResolucion = new Resolucion(fecha, etSolucion.getText().toString(),"backend",idTicket, resuelto);
 
                     mDatabase = FirebaseDatabase.getInstance().getReference();
                     mDatabase.child("resolucion").child(UUID.randomUUID().toString()).setValue(nuevaResolucion);
@@ -108,7 +107,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
 
         tvFechaSolTicket.setText(r.getFecha());
         tvSolucionTicket.setText(r.getComentario());
-        //ckboxResuelto.setChecked(r.getResuelto());
+        ckboxResuelto.setChecked(r.getResuelto());
 
     }
 
