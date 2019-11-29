@@ -20,6 +20,7 @@ import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Ticket> tickets_array = new ArrayList<Ticket>();
     Button btnSede;
     FloatingActionButton fabSedes;
-    FloatingActionButton fabNuevoTicket;
+    FloatingActionMenu fabMenu;
 
 
 
@@ -48,9 +49,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         fabSedes = (FloatingActionButton) findViewById(R.id.fabSedes);
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+
+        //Si tocamos fuera del menú se cierra
+        fabMenu.setClosedOnTouchOutside(true);
+
 
         rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
         rvTicket.setHasFixedSize(true);
@@ -69,11 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-
-
-
-
 
 
     }
@@ -165,8 +164,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void clickCrearTicket(){
+        Toast.makeText(this,"CrearTicket", LENGTH_SHORT).show();
+    }
 
+    public void clickAbrirSedes(){
+        Toast.makeText(this,"Abrirsedes", LENGTH_SHORT).show();
 
+    }
 
 
 

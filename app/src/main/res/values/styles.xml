@@ -1,18 +1,22 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#FFFF</item>
         <item name="colorPrimaryDark">#E60000</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#E60000</item>
         <item name="toolbarStyle">@style/CustomToolBarStyle</item>
+
 
     </style>
 
     <style name="CustomToolBarStyle" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextColor">#E60000</item>
+        <!-- Customize color of navigation drawer icon and back arrow -->
+        <item name="colorControlNormal">#E60000</item>
     </style>
+
 
     <style name="Etiquetas">
         <item name="android:background">@drawable/background_label_fab</item>

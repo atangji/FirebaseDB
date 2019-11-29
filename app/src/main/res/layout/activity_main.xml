@@ -41,5 +41,39 @@
             app:rippleColor="#00E2D1D1"/>
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fabMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:menu_fab_label="Menu"
+            app:backgroundTint="#E60000"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true">
+
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fabMenuCrearTicket"
+                    android:onClick="clickCrearTicket"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fab_label="Crear ticket"
+                    app:backgroundTint="#E60000"
+                    android:src="@drawable/ic_agregar"/>
+
+                <com.github.clans.fab.FloatingActionButton
+                    android:id="@+id/fabMenuSedes"
+                    android:onClick="clickAbrirSedes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:fab_label="Sedes"
+                    app:backgroundTint="#E60000"
+                    android:src="@drawable/ic_sedes"/>
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+        </RelativeLayout>
 </LinearLayout>
