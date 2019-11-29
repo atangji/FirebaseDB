@@ -164,11 +164,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void clickCrearTicket(){
+    public void clickCrearTicket(View view){
         Toast.makeText(this,"CrearTicket", LENGTH_SHORT).show();
     }
 
-    public void clickAbrirSedes(){
+    public void clickAbrirSedes(View view){
         Toast.makeText(this,"Abrirsedes", LENGTH_SHORT).show();
 
     }
