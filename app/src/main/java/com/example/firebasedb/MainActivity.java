@@ -164,13 +164,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void clickCrearTicket(View view){
-        Toast.makeText(this,"CrearTicket", LENGTH_SHORT).show();
+    public void clickCrearTicket(View v){
+
+        Intent i = new Intent(v.getContext(), InsertarTicketActivity.class);
+        startActivity(i);
     }
 
-    public void clickAbrirSedes(View view){
-        Toast.makeText(this,"Abrirsedes", LENGTH_SHORT).show();
+    public void clickAbrirSedes(View v){
 
+        Intent i = new Intent(v.getContext(), SedeActivity.class);
+        startActivity(i);
     }
 
 

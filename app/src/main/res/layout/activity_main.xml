@@ -28,19 +28,6 @@
         </androidx.appcompat.widget.AppCompatButton>
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabSedes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/office_building"
-            app:backgroundTint="#F44336"
-            app:layout_behavior=".MyBehavior"
-            app:rippleColor="#00E2D1D1"/>
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
