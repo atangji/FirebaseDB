@@ -12,6 +12,7 @@ import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
+import com.example.firebasedb.Model.Usuario;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,13 +35,21 @@ public class SedeActivity extends AppCompatActivity {
     FloatingActionButton fabInsertarSede;
 
     private DatabaseReference mDatabase;
-
+    Usuario u;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sede);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle!=null){
+             u = bundle.getParcelable("USUARIO");
+        }
+
+
 
         rvSede = (RecyclerView) findViewById(R.id.rvSede);
         rvSede.setHasFixedSize(true);
@@ -74,6 +83,9 @@ public class SedeActivity extends AppCompatActivity {
 
                 for (DataSnapshot sedes : dataSnapshot.getChildren()) {
                     final Sede sede = sedes.getValue(Sede.class);
+                    for (Map.Entry<String, Boolean> entryUsuario : sede.getUsuarios().entrySet()) {
+                        if(entryUsuario.getKey().equals(u.getId())){
+
 
                     //Al objeto sede le obtengo el HasMap de poblacion
                     for (Map.Entry<String, Boolean> entry : sede.getPoblacion().entrySet()) {
@@ -100,7 +112,8 @@ public class SedeActivity extends AppCompatActivity {
                         });
                     }
 
-
+                        }
+                    }
                 }
 
 

@@ -11,6 +11,10 @@ public class Sede implements Parcelable{
     String direccion;
     HashMap<String, Boolean> poblacion;
 
+
+
+    HashMap<String, Boolean> usuarios;
+
     Poblacion poblobj;
 
 
@@ -18,10 +22,11 @@ public class Sede implements Parcelable{
     public Sede() {
     }
 
-    public Sede(String id, String direccion, HashMap<String, Boolean> poblacion) {
+    public Sede(String id, String direccion, HashMap<String, Boolean> poblacion, HashMap<String, Boolean> usuarios) {
         this.id = id;
         this.direccion = direccion;
         this.poblacion = poblacion;
+        this.usuarios = usuarios;
     }
 
 
@@ -78,6 +83,13 @@ public class Sede implements Parcelable{
         return poblobj;
     }
 
+    public HashMap<String, Boolean> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(HashMap<String, Boolean> usuarios) {
+        this.usuarios = usuarios;
+    }
 
     public void setPoblobj(Poblacion poblobj) { this.poblobj = poblobj; }
 

@@ -45,17 +45,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eTextTipoTicket" />
 
-    <EditText
-        android:id="@+id/eTextSedeTicket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/sede_ticket"
-        android:paddingBottom="10dp"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
 
     <TextView
         android:id="@+id/textView8"
@@ -73,11 +62,20 @@
         android:id="@+id/eTextDetalleTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:hint="@string/detalle_ticket"
         android:paddingBottom="10dp"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <Spinner
+        android:id="@+id/eTextSedeTicket"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

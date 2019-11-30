@@ -20,6 +20,7 @@ import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
+import com.example.firebasedb.Model.Usuario;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnSede;
     FloatingActionButton fabSedes;
     FloatingActionMenu fabMenu;
-
+    Usuario u;
 
 
     private DatabaseReference mDatabase;
@@ -49,12 +50,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fabSedes = (FloatingActionButton) findViewById(R.id.fabSedes);
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
 
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
 
+        //simulacion login usuario
+        u = new Usuario("asdas","11144477A","Usuario1");
 
         rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
         rvTicket.setHasFixedSize(true);
@@ -62,17 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         cargarTicketFirebase();
 
-
-
-        FloatingActionButton fabSedes = (FloatingActionButton) findViewById(R.id.fabSedes);
-        fabSedes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(v.getContext(), SedeActivity.class);
-                startActivity(i);
-            }
-        });
 
 
     }
@@ -90,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
                 for(DataSnapshot tickets: dataSnapshot.getChildren()){
                    final Ticket ticket = tickets.getValue(Ticket.class);
+                    for(Map.Entry<String,Boolean> entryUsuario: ticket.getUsuarios().entrySet()){
+                        if(entryUsuario.getKey().equals(u.getId())){
+
 
                     //Al objeto sede le obtengo el HasMap de poblacion
                     for(Map.Entry<String,Boolean> entry: ticket.getSede().entrySet()){
@@ -145,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
-
+                        }
+                    }
 
 
                 }
@@ -173,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
     public void clickAbrirSedes(View v){
 
         Intent i = new Intent(v.getContext(), SedeActivity.class);
+        i.putExtra("USUARIO", u);
         startActivity(i);
     }
 
