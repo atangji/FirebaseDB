@@ -14,6 +14,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:gravity="center_horizontal"
         android:text="Bienvenido"
         android:textAlignment="center"
@@ -60,19 +61,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEmail" />
 
+    <TextView
+        android:id="@+id/tVrecordarPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="¿Has olvidado tu contraseña?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+
     <Button
         android:id="@+id/btnlogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttonred_2"
-        android:backgroundTint="#E60000"
+        android:layout_marginEnd="8dp"
         android:text="@string/login"
         android:textColor="#FFFF"
-        android:textColorHint="@drawable/common_google_signin_btn_text_dark_focused"
-        app:layout_constraintTop_toBottomOf="@+id/txtPassword"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tVrecordarPassword" />
 
     <TextView
         android:id="@+id/txtVregistrar"
@@ -85,7 +95,8 @@
         android:textAlignment="center"
         android:textColor="#E60000"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@+id/btnlogin"
-        tools:layout_editor_absoluteX="83dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnlogin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

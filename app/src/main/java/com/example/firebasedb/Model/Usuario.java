@@ -8,6 +8,7 @@ public class Usuario implements Parcelable {
     String email;
     String id;
     String nombre;
+    String uuid;
 
     public Usuario() {
 
@@ -18,6 +19,7 @@ public class Usuario implements Parcelable {
         this.id = id;
         this.nombre = nombre;
     }
+
 
     protected Usuario(Parcel in) {
         email = in.readString();
