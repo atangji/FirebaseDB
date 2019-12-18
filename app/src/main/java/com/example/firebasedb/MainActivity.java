@@ -55,8 +55,12 @@ public class MainActivity extends AppCompatActivity {
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
 
-        //simulacion login usuario
-        u = new Usuario("asdas","11144477A","Usuario1");
+
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle!=null){
+            u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
+        }
 
         rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
         rvTicket.setHasFixedSize(true);
@@ -168,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     public void clickAbrirSedes(View v){
 
         Intent i = new Intent(v.getContext(), SedeActivity.class);
-        i.putExtra("USUARIO", u);
+        i.putExtra(RegistroActivity.EXTRA_USER, u);
         startActivity(i);
     }
 

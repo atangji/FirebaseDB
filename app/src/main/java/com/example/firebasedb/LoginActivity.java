@@ -19,7 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.UUID;
 
@@ -27,6 +31,7 @@ import java.util.UUID;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
+
     private EditText textEmail;
     private EditText textPassword;
     private Button btnLogin;
@@ -44,6 +49,29 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+
+        //firebaseAuth.signOut();
+        if(firebaseAuth.getCurrentUser()!=null){
+
+            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
+
+            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Usuario user = dataSnapshot.getValue(Usuario.class);
+
+                    Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                    i.putExtra(RegistroActivity.EXTRA_USER,user);
+                    startActivity(i);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
         textEmail = (EditText) findViewById(R.id.txtEmail);
         textPassword=(EditText) findViewById(R.id.txtPassword);
         tvRecordarPassword = (TextView) findViewById(R.id.tVrecordarPassword);
@@ -56,7 +84,9 @@ public class LoginActivity extends AppCompatActivity {
         textViewRegistrar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 registrar_usuario();
+
+                 Intent i=new Intent(getApplicationContext(), RegistroActivity.class);
+                 startActivity(i);
              }
          });
 
@@ -91,70 +121,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void registrar_usuario(){
-
-
-        //obtenemos mail y contraseña
-        email= textEmail.getText().toString().trim().toLowerCase();
-        password = textPassword.getText().toString().trim();
-
-        //Verificamos cajas no vacías
-        if(TextUtils.isEmpty(email)){
-            Toast.makeText(this,"Se debe insertar un usuario",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        if(TextUtils.isEmpty(password)){
-            Toast.makeText(this,"Se debe insertar un password",Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        progressDialog.setMessage("Realizando registro en linea..");
-        progressDialog.show();
-
-        //Creamos un nuevo usuario
-        firebaseAuth.createUserWithEmailAndPassword(email,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        //Comprobamos si es correcto
-                        if (task.isSuccessful()){
-
-
-                            //Si es correcto además guardamos los datos del usuario en bbdd:
-                            Usuario usuario = new Usuario(email,FirebaseAuth.getInstance().getCurrentUser().getUid(),"");
-                            FirebaseDatabase.getInstance().getReference("usuarios")
-                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                    .setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(LoginActivity.this,"Se ha registrado el usuario con el email: "+ textEmail.getText(),Toast.LENGTH_LONG).show();
-                                    }else{
-                                        Toast.makeText(LoginActivity.this,"No se pudo registrar el usuario",Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-                            });
-
-
-
-                        }else{
-
-                            //Comprobamos si el usuario existe
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException) {//Si el usuario ya existe
-
-                                Toast.makeText(LoginActivity.this, "El usuario ya existe", Toast.LENGTH_LONG).show();
-                            }
-
-                            Toast.makeText(LoginActivity.this,"No se pudo registrar el usuario",Toast.LENGTH_LONG).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
-    }
 
     private void logar_usuario(){
 
@@ -240,9 +206,7 @@ public class LoginActivity extends AppCompatActivity {
 
         switch (view .getId()){
 
-            case R.id.txtVregistrar:
-                registrar_usuario();
-                break;
+
             case R.id.btnlogin:
                 logar_usuario();
 

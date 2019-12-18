@@ -46,7 +46,7 @@ public class SedeActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null){
-             u = bundle.getParcelable("USUARIO");
+             u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
         }
 
 
