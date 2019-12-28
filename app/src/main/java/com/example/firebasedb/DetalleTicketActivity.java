@@ -3,10 +3,12 @@ package com.example.firebasedb;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,6 +21,8 @@ import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Resolucion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
+import com.example.firebasedb.Model.Usuario;
+import com.example.firebasedb.Utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,6 +41,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
 
     Ticket t;
     TextView tvTipoTicket;
+    TextView tvNumTioket;
     TextView tvSedeTicket;
     TextView tvFechaCreacion;
     TextView tvDetalleTicket;
@@ -45,10 +50,9 @@ public class DetalleTicketActivity extends AppCompatActivity {
     EditText etSolucion;
     Button btnInsertar;
     CheckBox ckboxResuelto;
-
+    private Usuario u;
     private DatabaseReference mDatabase;
     private String fecha = "1900-01-01";
-    private boolean isBackend = true;
     private boolean resuelto = false;
     //...
     @Override
@@ -59,17 +63,35 @@ public class DetalleTicketActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
-            t = bundle.getParcelable("TICKET");
+            t = bundle.getParcelable(Constants.EXTRA_TICKET);
+            u = bundle.getParcelable(Constants.EXTRA_USER);
             tvTipoTicket.setText(t.getTipoobj().getTipo_nombre());
             tvSedeTicket.setText((t.getSedeobj().getDireccion()));
             tvFechaCreacion.setText(t.getFecha_creacion());
             tvDetalleTicket.setText(t.getComentario());
+            setTitle("NUM TICKET: "+t.getId());
             cargarResolucion();
         }
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+     switch (item.getItemId()){
+
+         case android.R.id.home:
+             Intent back = getIntent();
+             back.putExtra(Constants.EXTRA_USER, u);
+             setResult(RESULT_OK, back);
+             finish();
+             return true;
+     }
+    return super.onOptionsItemSelected(item);
+    }
+
     private void initViews(){
+        tvNumTioket = (TextView) findViewById(R.id.tViewNumTioket);
         tvTipoTicket = (TextView) findViewById(R.id.tvTipoTicket);
         tvSedeTicket = (TextView) findViewById(R.id.tvSedeTicket);
         tvFechaCreacion = (TextView) findViewById(R.id.tvFechaCreacion);
@@ -109,6 +131,23 @@ public class DetalleTicketActivity extends AppCompatActivity {
         tvSolucionTicket.setText(r.getComentario());
         ckboxResuelto.setChecked(r.getResuelto());
 
+
+
+        if(u.getId().equals(Constants.ID_ADMIN)){
+
+            etSolucion.setVisibility(View.VISIBLE);
+            btnInsertar.setVisibility(View.VISIBLE);
+            ckboxResuelto.setEnabled(true);
+
+
+        }else{
+
+            etSolucion.setVisibility(View.GONE);
+            btnInsertar.setVisibility(View.GONE);
+            ckboxResuelto.setEnabled(false);
+
+        }
+
     }
 
     private void setFechaHora(){
@@ -124,10 +163,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
     }
     private void enabledResolucion(){
 
-
-       // tvFechaSolTicket.setText("Pendiente");
-       // tvSolucionTicket.setText("Pendiente de revisión");
-        if(isBackend){
+        if(u.getId().equals(Constants.ID_ADMIN)){
            etSolucion.setVisibility(View.VISIBLE);
            btnInsertar.setVisibility(View.VISIBLE);
            ckboxResuelto.setVisibility(View.VISIBLE);
@@ -165,8 +201,9 @@ public class DetalleTicketActivity extends AppCompatActivity {
                         String id_ticket = entry.getKey();
 
                         if(id_ticket.equals(t.getId())){
-                            initResolucion(resolucion);
                             noTieneResolucion = false;
+                            initResolucion(resolucion);
+
                         }
                     }
                 }

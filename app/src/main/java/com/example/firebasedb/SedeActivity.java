@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
 import com.example.firebasedb.Adapters.TicketAdapter;
@@ -13,6 +14,7 @@ import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
 import com.example.firebasedb.Model.Usuario;
+import com.example.firebasedb.Utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static android.widget.Toast.LENGTH_LONG;
 
 public class SedeActivity extends AppCompatActivity {
 
@@ -46,31 +50,53 @@ public class SedeActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null){
-             u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
+            u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
+            rvSede = (RecyclerView) findViewById(R.id.rvSede);
+            rvSede.setHasFixedSize(true);
+            rvSede.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+            cargarSedeFirebase();
+
+
+            FloatingActionButton fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
+            fabInsertarSede.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent i = new Intent(v.getContext(), InsertarSedeActivity.class);
+                    startActivity(i);
+                }
+            });
+
+        }else{
+            Toast.makeText(getApplicationContext(), "error al cargar usuarios", LENGTH_LONG).show();
+            try {
+                Thread.sleep(3000);
+                //PODEMOS HACER LO QUE QUERAMOS PASADOS 3 SEGUNDOS, POR EJEMPLO... VOLVER AL LOGIN O CERRAR TODA LA APP
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
 
 
-        rvSede = (RecyclerView) findViewById(R.id.rvSede);
-        rvSede.setHasFixedSize(true);
-        rvSede.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        cargarSedeFirebase();
-
-
-        FloatingActionButton fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
-        fabInsertarSede.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i = new Intent(v.getContext(), InsertarSedeActivity.class);
-                startActivity(i);
-            }
-        });
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()){
+
+            case android.R.id.home:
+                Intent back = getIntent();
+                back.putExtra(Constants.EXTRA_USER, u);
+                setResult(RESULT_OK, back);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void cargarSedeFirebase() {
         final Sede sede;
@@ -84,7 +110,7 @@ public class SedeActivity extends AppCompatActivity {
                 for (DataSnapshot sedes : dataSnapshot.getChildren()) {
                     final Sede sede = sedes.getValue(Sede.class);
                     for (Map.Entry<String, Boolean> entryUsuario : sede.getUsuarios().entrySet()) {
-                        if(entryUsuario.getKey().equals(u.getId())){
+                        if(entryUsuario.getKey().equals(u.getId()) || Constants.ID_ADMIN.equals(u.getId())){
 
 
                     //Al objeto sede le obtengo el HasMap de poblacion

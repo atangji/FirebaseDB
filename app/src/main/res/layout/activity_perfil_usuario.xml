@@ -4,25 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="8dp"
-    tools:context=".RegistroActivity">
+    android:padding="32dp"
+    tools:context=".PerfilUsuario">
 
 
     <EditText
-        android:id="@+id/etRegistroNombre"
+        android:id="@+id/etPerfilNombre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Nombre"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <EditText
-        android:id="@+id/etRegistroEmail"
+        android:id="@+id/etPerfilCorreo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -31,22 +31,11 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRegistroNombre" />
+        app:layout_constraintTop_toBottomOf="@+id/etPerfilNombre" />
+
 
     <EditText
-        android:id="@+id/etRegistroRepPassword"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Repite contraseña"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRegistroPassword" />
-
-    <EditText
-        android:id="@+id/etRegistroTelefono"
+        android:id="@+id/etPerfilTelefono"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -55,11 +44,11 @@
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRegistroEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etPerfilCorreo" />
 
     <EditText
-        android:id="@+id/etRegistroPassword"
-        android:layout_width="0dp"
+        android:id="@+id/eTPerfilPassword"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -67,24 +56,29 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRegistroTelefono" />
+        app:layout_constraintTop_toBottomOf="@+id/etPerfilTelefono" />
 
-
-    <Button
-        android:id="@+id/btnRegistrar"
+    <EditText
+        android:id="@+id/eTPerfilRepitePassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="8dp"
-        android:text="Registrar"
-        android:onClick="clickRegistrar"
-        android:textColor="#FFFF"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Repite contraseña"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etRegistroRepPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/eTPerfilPassword" />
 
+    <Button
+        android:id="@+id/btnPerfilCambiaPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Cambiar contraseña"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eTPerfilRepitePassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.example.firebasedb;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
 import com.example.firebasedb.Model.Usuario;
+import com.example.firebasedb.Utils.Constants;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -60,21 +62,30 @@ public class MainActivity extends AppCompatActivity {
 
         if(bundle!=null){
             u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
+
+            rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
+            rvTicket.setHasFixedSize(true);
+            rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+            cargarTicketFirebase();
+
+        }else{
+            Toast.makeText(getApplicationContext(), "error al cargar usuarios", LENGTH_LONG).show();
         }
 
-        rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
-        rvTicket.setHasFixedSize(true);
-        rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
-        cargarTicketFirebase();
 
 
 
     }
 
-
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+       if(resultCode==RESULT_OK){
+           if(data != null){
+               u = data.getParcelableExtra(Constants.EXTRA_USER);
+           }
+       }
+    }
 
     private void cargarTicketFirebase(){
         final Ticket ticket;
@@ -86,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot tickets: dataSnapshot.getChildren()){
                    final Ticket ticket = tickets.getValue(Ticket.class);
                     for(Map.Entry<String,Boolean> entryUsuario: ticket.getUsuarios().entrySet()){
-                        if(entryUsuario.getKey().equals(u.getId())){
+                        if(entryUsuario.getKey().equals(u.getId()) || Constants.ID_ADMIN.equals(u.getId())){
 
 
                     //Al objeto sede le obtengo el HasMap de poblacion
@@ -122,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                                                  Ticket t = tickets_array.get(rvTicket.getChildAdapterPosition(v));
                                                  Intent i = new Intent(getApplicationContext(), DetalleTicketActivity.class);
                                                  i.putExtra("TICKET", t);
+                                                 i.putExtra(RegistroActivity.EXTRA_USER, u);
                                                  startActivity(i);
                                                 }
                                             });

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.firebasedb">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +11,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegistroActivity"></activity>
+        <activity android:name=".PerfilUsuario"
+
+            android:label="Perfil usuario">
+
+        </activity>
+        <activity android:name=".RegistroActivity"
+
+            android:label="Registro usuario">
+        </activity>
+
         <activity
             android:name=".InsertarSedeActivity"
             android:label="@string/title_activity_insertar_sede"
@@ -21,6 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.firebasedb.SedeActivity" />
         </activity>
+
         <activity
             android:name=".InsertarTicketActivity"
             android:label="@string/title_activity_insertar_ticket"
@@ -30,21 +40,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.firebasedb.MainActivity" />
         </activity>
+
         <activity android:name=".DetalleTicketActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.firebasedb.MainActivity" />
         </activity>
+
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
-            android:label="@string/titulo_main"></activity>
+            android:label="@string/titulo_main" />
         <activity
             android:name=".SedeActivity"
             android:label="@string/titulo_sedes"
@@ -55,7 +67,6 @@
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

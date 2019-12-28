@@ -49,8 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-
-        //firebaseAuth.signOut();
+//firebaseAuth.signOut();
         if(firebaseAuth.getCurrentUser()!=null){
 
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
