@@ -15,6 +15,7 @@
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:paddingTop="10dp"
         android:text="Dirección:"
         android:textColor="#F44336"
@@ -22,10 +23,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <EditText
         android:id="@+id/eTextSedeDir"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/sede_direccion"
         android:textSize="15dp"
@@ -40,20 +40,9 @@
         android:layout_marginTop="8dp"
         android:text="Codigo postal:"
         android:textColor="#F44336"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextSedeDir" />
+        app:layout_constraintTop_toBottomOf="@+id/eTextSedeDir"
+        tools:layout_editor_absoluteX="8dp" />
 
-
-    <Spinner
-        android:id="@+id/eTextCPSede"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/codigo_postal"
-        android:textSize="15dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/textView6"
@@ -64,19 +53,18 @@
         android:text="Poblacion:"
         android:textColor="#F44336"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextCPSede" />
+        app:layout_constraintTop_toBottomOf="@+id/btnBuscarCP" />
 
-    <Spinner
+    <TextView
         android:id="@+id/eTextProvinciaSede"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/poblacion"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/textView7"
@@ -88,16 +76,39 @@
         android:textColor="#F44336"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eTextProvinciaSede" />
+        app:layout_constraintTop_toBottomOf="@+id/eTextPoblacionSede" />
 
     <Spinner
         android:id="@+id/eTextPoblacionSede"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/provincia"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <EditText
+        android:id="@+id/etCP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="Codigo Postal"
+        android:text="12599"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/btnBuscarCP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Buscar"
+        android:background="@color/colorPrimary"
+        android:textColor="@color/blanco"
+        android:onClick="clickVerPoblaciones"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etCP" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

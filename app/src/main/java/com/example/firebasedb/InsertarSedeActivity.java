@@ -1,5 +1,6 @@
 package com.example.firebasedb;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
@@ -7,21 +8,31 @@ import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -29,67 +40,89 @@ import java.util.UUID;
 public class InsertarSedeActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
-    private Spinner eTextCPSede,eTextProvinciaSede,eTextPoblacionSede;
+    private ProgressDialog progressDialog;
+    private Spinner eTextPoblacionSede;
+    private EditText eTextCPSede, etDireccion;
+    private TextView eTextProvinciaSede;
+    String cp_seleccionado;
+    String poblacion_seleccionado;
+    String provincia_seleccionado;
+    String id_poblacion_seleccionado;
+    ArrayList<Poblacion> poblaciones_seleccionda=new ArrayList<Poblacion>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertar_sede);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initViews();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+initViews();
+    }
+    private void initViews(){
+        progressDialog = new ProgressDialog(this);
+        eTextCPSede = (EditText) findViewById(R.id.etCP);
+        etDireccion = (EditText) findViewById(R.id.eTextSedeDir);
+        eTextProvinciaSede = (TextView) findViewById(R.id.eTextProvinciaSede);
+        eTextPoblacionSede = (Spinner) findViewById(R.id.eTextPoblacionSede);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Poblacion poblacion_guardar = null;
+                String cp_poblacion_seleccionada = eTextPoblacionSede.getSelectedItem().toString();
+                for (Poblacion p: poblaciones_seleccionda){
+                    if(p.getPoblacion().equals(cp_poblacion_seleccionada)){
+                          poblacion_guardar = p;
+                    }
+                }
 
-                insertarFirebaseSede();
+                if (poblacion_guardar != null) {
+                    String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String dir = etDireccion.getText().toString();
+
+                    if (TextUtils.isEmpty(dir)) {
+
+                        Toast.makeText(getApplicationContext(),"Debes de insertar una direccion",Toast.LENGTH_LONG).show();
+                    }else{
+                        String sede_id = UUID.randomUUID().toString();
+                        HashMap<String, Boolean> poblacion_sede = new HashMap<>();
+                        poblacion_sede.put(poblacion_guardar.getId(),true);
+                        HashMap<String, Boolean> usuarios_sede = new HashMap<>();
+                        usuarios_sede.put(idUser,true);
+                        Sede sede_nueva = new Sede(sede_id, dir,poblacion_sede,usuarios_sede);
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("sede").child(sede_id).setValue(sede_nueva);
+                    }
+
+                }
 
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-    private void initViews(){
-        eTextCPSede = (Spinner) findViewById(R.id.eTextCPSede);
-        eTextProvinciaSede = (Spinner) findViewById(R.id.eTextProvinciaSede);
-        eTextPoblacionSede = (Spinner) findViewById(R.id.eTextPoblacionSede);
-    }
-    private void insertarFirebaseSede() {
+    private void cargarSpinnerPoblacion() {
         final Sede sede;
-
+        final ArrayList<String> poblaciones_nombres = new ArrayList<>();
 
         mDatabase = FirebaseDatabase.getInstance().getReference("poblacion");
+        Query queryRef = mDatabase.orderByChild("cp").equalTo(cp_seleccionado);
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String cp = eTextCPSede.getSelectedItem().toString();
-                String loc = eTextPoblacionSede.getSelectedItem().toString();
-                String prov = eTextProvinciaSede.getSelectedItem().toString();
 
                 for (DataSnapshot poblaciones : dataSnapshot.getChildren()) {
+
                     final Poblacion poblacion = poblaciones.getValue(Poblacion.class);
-
-
-
-                    if(poblacion.getCp().equals(cp) && poblacion.getProvincia().toLowerCase().equals(prov.toLowerCase()) && poblacion.getPoblacion().toLowerCase().equals(loc.toLowerCase())){
-
-                        HashMap<String, Boolean> idPoblacion = new HashMap<>();
-                        HashMap<String, Boolean> idUsuario = new HashMap<>();
-                        idPoblacion.put(poblacion.getId(),true);
-                        idUsuario.put("11144477A",true);
-
-                        String id_nueva_sede = UUID.randomUUID().toString();
-
-                        Sede nuevaSede = new Sede(id_nueva_sede,"Nombreee sede",idPoblacion,idUsuario);
-
-                        mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("sede").child(id_nueva_sede).setValue(nuevaSede);
-
-
-                        //FIN
-                    }
-
+                    poblaciones_nombres.add(poblacion.getPoblacion());
+                    provincia_seleccionado = poblacion.getProvincia();
+                    poblaciones_seleccionda.add(poblacion);
                 }
+
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,  poblaciones_nombres);
+                eTextPoblacionSede.setAdapter(adapter);
+                eTextProvinciaSede.setText(provincia_seleccionado);
+                progressDialog.dismiss();
 
 
             }
@@ -101,8 +134,21 @@ public class InsertarSedeActivity extends AppCompatActivity {
                 // ...
             }
         };
-        mDatabase.addValueEventListener(postListener);
+        queryRef.addValueEventListener(postListener);
     }
 
 
+    public void clickVerPoblaciones(View view) {
+
+        String cp = eTextCPSede.getText().toString();
+        if(cp.length()<=5 &&  !TextUtils.isEmpty(cp) && TextUtils.isDigitsOnly(cp)){
+            progressDialog.setMessage("Cargando Poblaciones...");
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.show();
+            cp_seleccionado = cp;
+            cargarSpinnerPoblacion();
+        }else{
+            Toast.makeText(getApplicationContext(), "Revisa el CP, debe de estar relleno por un formato válido", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
