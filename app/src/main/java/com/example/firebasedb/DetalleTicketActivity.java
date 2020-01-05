@@ -30,8 +30,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +56,9 @@ public class DetalleTicketActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private String fecha = "1900-01-01";
     private boolean resuelto = false;
+    boolean noTieneResolucion = true;
+    String id_res;
+    Resolucion res;
     //...
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,10 +120,22 @@ public class DetalleTicketActivity extends AppCompatActivity {
                 }else{
                     HashMap<String, Boolean> idTicket = new HashMap<>();
                     idTicket.put(t.getId(),true);
-                    Resolucion nuevaResolucion = new Resolucion(fecha, etSolucion.getText().toString(),"backend",idTicket, resuelto);
+                    if(noTieneResolucion){
+                        id_res = UUID.randomUUID().toString();
+                        setFechaHora();
+                        Resolucion nuevaResolucion = new Resolucion(id_res, fecha,  etSolucion.getText().toString(),"backend",idTicket, resuelto);
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("resolucion").child(id_res).setValue(nuevaResolucion);
+                    }else{
+                        setFechaHora();
+                        res.setComentario("("+res.getFecha()+"): "+res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString()));
+                        res.setFecha(fecha);
+                        mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("resolucion").child(res.getId()).setValue(res);
+                    }
 
-                    mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("resolucion").child(UUID.randomUUID().toString()).setValue(nuevaResolucion);
+
+
 
                 }
             }
@@ -130,8 +147,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
         tvFechaSolTicket.setText(r.getFecha());
         tvSolucionTicket.setText(r.getComentario());
         ckboxResuelto.setChecked(r.getResuelto());
-
-
+        res = r;
 
         if(u.getId().equals(Constants.ID_ADMIN)){
 
@@ -157,7 +173,11 @@ public class DetalleTicketActivity extends AppCompatActivity {
             LocalDateTime now = LocalDateTime.now();
             fecha = dtf.format(now);
         }else{
-            fecha = "2019-11-28";
+            //fecha = "2019-11-28";
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DATE, 1);
+            SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            fecha = format1.format(cal.getTime());
         }
 
     }
@@ -192,7 +212,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                boolean noTieneResolucion = true;
+
                 for (DataSnapshot resoluciones : dataSnapshot.getChildren()) {
                     final Resolucion resolucion = resoluciones.getValue(Resolucion.class);
                     //Al objeto sede le obtengo el HasMap de poblacion

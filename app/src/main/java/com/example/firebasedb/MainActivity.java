@@ -10,6 +10,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,6 +28,7 @@ import com.example.firebasedb.Model.Usuario;
 import com.example.firebasedb.Utils.Constants;
 import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,6 +42,7 @@ import java.util.Map;
 import static android.widget.Toast.*;
 
 public class MainActivity extends AppCompatActivity {
+
     RecyclerView rvTicket;
     ArrayList<Ticket> tickets_array = new ArrayList<Ticket>();
     Button btnSede;
@@ -47,16 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        firebaseAuth = FirebaseAuth.getInstance();
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
 
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
-
 
         Bundle bundle = getIntent().getExtras();
 
@@ -72,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(), "error al cargar usuarios", LENGTH_LONG).show();
         }
-
-
 
 
     }
@@ -188,6 +193,38 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        MenuInflater inflater = getMenuInflater();
 
+        if(Constants.ID_ADMIN.equals(u.getId())){
+
+            inflater.inflate(R.menu.admin_menu, menu);
+        }else{
+
+            inflater.inflate(R.menu.user_menu, menu);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.menu_item1:
+                Toast.makeText(this, "Perfil usuario", LENGTH_SHORT).show();
+                return true;
+
+            case R.id.menu_item2:
+                firebaseAuth.signOut();
+                Intent i=new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 }

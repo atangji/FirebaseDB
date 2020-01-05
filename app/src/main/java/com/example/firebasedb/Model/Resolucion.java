@@ -10,6 +10,7 @@ public class Resolucion implements Parcelable {
     String fecha;
     String comentario;
     String backend;
+    String id;
     HashMap<String, Boolean> ticket;
     Boolean resuelto;
 
@@ -19,7 +20,8 @@ public class Resolucion implements Parcelable {
     }
 
 
-    public Resolucion(String fecha, String comentario, String backend, HashMap<String, Boolean> ticket, Boolean resuelto)  {
+    public Resolucion(String id, String fecha, String comentario, String backend, HashMap<String, Boolean> ticket, Boolean resuelto)  {
+        this.id = id;
         this.fecha = fecha;
         this.comentario = comentario;
         this.backend = backend;
@@ -30,6 +32,7 @@ public class Resolucion implements Parcelable {
 
 
     protected Resolucion(Parcel in) {
+        id = in.readString();
         fecha = in.readString();
         comentario = in.readString();
         backend = in.readString();
@@ -82,6 +85,14 @@ public class Resolucion implements Parcelable {
         this.resuelto = resuelto;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -89,6 +100,8 @@ public class Resolucion implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeString(id);
         dest.writeString(fecha);
         dest.writeString(comentario);
         dest.writeString(backend);

@@ -151,12 +151,31 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()){
                             Toast.makeText(LoginActivity.this,"Bienvenido: "+ textEmail.getText(),Toast.LENGTH_LONG).show();
 
+
+
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
+
+                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    Usuario user = dataSnapshot.getValue(Usuario.class);
+
+                                    Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                                    i.putExtra(RegistroActivity.EXTRA_USER,user);
+                                    startActivity(i);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                             //CApturamos el usuario para mandarlo a la siguiente actividad
-                            Integer posicion = email.indexOf("@");
+                           /* Integer posicion = email.indexOf("@");
                             String user = email.substring(0,posicion) ;
                             Intent intent = new Intent(getApplication(),MainActivity.class);
-                            //intent.putExtra(MenuSlideActivity.usuario, email);
-                            startActivity(intent);
+
+                            startActivity(intent);*/
 
                         }else{
 
