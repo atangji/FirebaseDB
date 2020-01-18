@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fabSedes;
     FloatingActionMenu fabMenu;
     Usuario u;
-
+    final static String EXTRA_USER = "USER";
 
     private DatabaseReference mDatabase;
     private FirebaseAuth firebaseAuth;
@@ -213,13 +213,15 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()){
             case R.id.menu_item1:
-                Toast.makeText(this, "Perfil usuario", LENGTH_SHORT).show();
+                Intent i = new Intent(getApplicationContext(), PerfilUsuario.class);
+                i.putExtra(RegistroActivity.EXTRA_USER, u);
+                startActivity(i);
                 return true;
 
             case R.id.menu_item2:
                 firebaseAuth.signOut();
-                Intent i=new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
+                Intent i2=new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(i2);
                 return true;
 
             default:
