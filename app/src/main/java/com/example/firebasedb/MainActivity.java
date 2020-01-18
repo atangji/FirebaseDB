@@ -183,6 +183,8 @@ public class MainActivity extends AppCompatActivity {
     public void clickCrearTicket(View v){
 
         Intent i = new Intent(v.getContext(), InsertarTicketActivity.class);
+
+        i.putExtra(RegistroActivity.EXTRA_USER, u);
         startActivity(i);
     }
 

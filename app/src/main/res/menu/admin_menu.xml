@@ -2,6 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
         <item android:id="@+id/menu_item2"
-            android:icon="@drawable/logout"
+            android:icon="@drawable/ic_launcher_background"
             android:title="Cerrar sesión" />
 </menu>
