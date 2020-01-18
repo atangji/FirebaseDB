@@ -14,7 +14,9 @@
         <activity android:name=".PerfilUsuario"
 
             android:label="Perfil usuario">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.firebasedb.MainActivity" />
         </activity>
         <activity android:name=".RegistroActivity"
 
