@@ -1,6 +1,7 @@
 package com.example.firebasedb;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
@@ -24,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -136,7 +138,20 @@ public class InsertarTicketActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
+        switch (item.getItemId()){
+
+            case android.R.id.home:
+                Intent back = getIntent();
+                back.putExtra(Constants.EXTRA_USER, u);
+                setResult(RESULT_OK, back);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     private String getTipo(String nombre){
         for (Tipo tipo: tipos_obj_array){
             if(tipo.getTipo_nombre().equals(nombre)){

@@ -91,7 +91,25 @@ initViews();
                         usuarios_sede.put(idUser,true);
                         Sede sede_nueva = new Sede(sede_id, dir,poblacion_sede,usuarios_sede);
                         mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("sede").child(sede_id).setValue(sede_nueva);
+                        progressDialog.setMessage("Insertando sede..");
+                        progressDialog.setCanceledOnTouchOutside(false);
+                        progressDialog.show();
+                        mDatabase.child("sede").child(sede_id).setValue(sede_nueva,new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                if (databaseError == null) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Se insertó la sede con éxito", Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Ups¡ No se ha podido guardar la sede", Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+
+                        });
                     }
 
                 }
