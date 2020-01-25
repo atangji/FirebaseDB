@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">#E60000</item>
         <item name="colorAccent">#E60000</item>
         <item name="toolbarStyle">@style/CustomToolBarStyle</item>
-
+        <item name="android:windowContentTransitions">true</item>
 
     </style>
 

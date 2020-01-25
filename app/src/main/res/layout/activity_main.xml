@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -37,7 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:menu_fab_label="Menu"
-            app:backgroundTint="#E60000"
+            android:layout_gravity="right|bottom"
+            android:visibility="visible"
+            fab:menu_openDirection="up"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true">
 
@@ -63,4 +65,4 @@
         </com.github.clans.fab.FloatingActionMenu>
 
         </RelativeLayout>
-</LinearLayout>
+</FrameLayout >

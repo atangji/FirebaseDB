@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private String email;
     private String password;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,13 @@ public class LoginActivity extends AppCompatActivity {
 //firebaseAuth.signOut();
         if(firebaseAuth.getCurrentUser()!=null){
 
+
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Iniciando sesión");
+
+            //muestras el ProgressDialog
+            progressDialog.show();
+
             DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
 
             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -61,12 +69,13 @@ public class LoginActivity extends AppCompatActivity {
 
                     Intent i=new Intent(getApplicationContext(), MainActivity.class);
                     i.putExtra(RegistroActivity.EXTRA_USER,user);
+                    progressDialog.dismiss();
                     startActivity(i);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    progressDialog.dismiss();
                 }
             });
         }

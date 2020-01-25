@@ -7,12 +7,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -64,11 +68,14 @@ public class MainActivity extends AppCompatActivity {
 
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
+        fabMenu.setForegroundGravity(Gravity.RIGHT);
+
+
 
         Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null){
-            u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
+            u = bundle.getParcelable(Constants.EXTRA_USER);
 
             rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
             rvTicket.setHasFixedSize(true);
@@ -83,14 +90,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-       if(resultCode==RESULT_OK){
-           if(data != null){
-               u = data.getParcelableExtra(Constants.EXTRA_USER);
-           }
-       }
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    u = data.getParcelableExtra(Constants.EXTRA_USER);
+                }
+            }
+        }
     }
+
 
     private void cargarTicketFirebase(){
         final Ticket ticket;
@@ -180,18 +193,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public void clickCrearTicket(View v){
 
         Intent i = new Intent(v.getContext(), InsertarTicketActivity.class);
 
-        i.putExtra(RegistroActivity.EXTRA_USER, u);
+        i.putExtra(Constants.EXTRA_USER, u);
         startActivity(i);
     }
 
     public void clickAbrirSedes(View v){
 
         Intent i = new Intent(v.getContext(), SedeActivity.class);
-        i.putExtra(RegistroActivity.EXTRA_USER, u);
+        i.putExtra(Constants.EXTRA_USER, u);
         startActivity(i);
     }
 
@@ -216,8 +230,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.menu_item1:
                 Intent i = new Intent(getApplicationContext(), PerfilUsuario.class);
-                i.putExtra(RegistroActivity.EXTRA_USER, u);
-                startActivity(i);
+
+                i.putExtra(Constants.EXTRA_USER, u);
+                startActivityForResult(i,1);
                 return true;
 
             case R.id.menu_item2:

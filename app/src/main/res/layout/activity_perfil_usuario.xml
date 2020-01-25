@@ -10,26 +10,15 @@
 
 
     <TextView
-        android:id="@+id/tvPerfilCorreo"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-
-        android:hint="Correo electrónico"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
         android:id="@+id/tvPerfilNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="Nombre:"
         android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPerfilCorreo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <EditText
