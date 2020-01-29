@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvTicket;
     ArrayList<Ticket> tickets_array = new ArrayList<Ticket>();
     Button btnSede;
+    TextView emptyTv;
     FloatingActionButton fabSedes;
     FloatingActionMenu fabMenu;
     Usuario u;
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
             rvTicket.setHasFixedSize(true);
             rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
+            emptyTv = (TextView)findViewById(R.id.tvItemIDTicket);
             cargarTicketFirebase();
 
         }else{
@@ -148,6 +150,15 @@ public class MainActivity extends AppCompatActivity {
                                             Collections.reverse(tickets_array);
                                             TicketAdapter adapter = new TicketAdapter(tickets_array);
                                             rvTicket.setAdapter(adapter);
+
+                                            if(tickets_array.size()==0){
+                                                rvTicket.setVisibility(View.GONE);
+                                                emptyTv.setVisibility(View.VISIBLE);
+                                            }else{
+                                                rvTicket.setVisibility(View.VISIBLE);
+                                                emptyTv.setVisibility(View.GONE);
+                                            }
+
                                             adapter.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {

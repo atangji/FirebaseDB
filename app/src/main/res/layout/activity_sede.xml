@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".SedeActivity">
 
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="La lista de sedes está vacía"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSede"
         android:layout_width="0dp"
@@ -26,11 +36,10 @@
         android:paddingBottom="10dp"
         android:src="@drawable/ic_agregar"
         app:backgroundTint="#F44336"
-        app:rippleColor="#00E2D1D1"
         app:layout_behavior=".MyBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
- />
+        app:rippleColor="#00E2D1D1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

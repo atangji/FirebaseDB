@@ -25,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -58,7 +59,9 @@ public class InsertarSedeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insertar_sede);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
@@ -113,6 +116,7 @@ public class InsertarSedeActivity extends AppCompatActivity {
                                     Intent i=new Intent(getApplicationContext(), SedeActivity.class);
                                     i.putExtra(Constants.EXTRA_USER, u);
                                     startActivity(i);
+                                    finish();
                                 } else {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Ups¡ No se ha podido guardar la sede", Toast.LENGTH_LONG).show();
@@ -129,6 +133,22 @@ public class InsertarSedeActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case android.R.id.home:
+                Intent back = getIntent();
+                back.putExtra(Constants.EXTRA_USER, u);
+                setResult(RESULT_OK, back);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void cargarSpinnerPoblacion() {
         final Sede sede;
         final ArrayList<String> poblaciones_nombres = new ArrayList<>();

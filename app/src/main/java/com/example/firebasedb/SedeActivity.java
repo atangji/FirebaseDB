@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
@@ -26,15 +27,19 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import static android.widget.Toast.LENGTH_LONG;
 
 public class SedeActivity extends AppCompatActivity {
 
     RecyclerView rvSede;
+    TextView emtpyTv;
     ArrayList<Sede> sedes_array = new ArrayList<Sede>();
     FloatingActionButton fabInsertarSede;
 
@@ -52,6 +57,9 @@ public class SedeActivity extends AppCompatActivity {
         if(bundle!=null){
             u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
             rvSede = (RecyclerView) findViewById(R.id.rvSede);
+            emtpyTv = (TextView) findViewById(R.id.tvEmpty);
+
+            //emtpyTv.setVisibility(View.GONE);
             rvSede.setHasFixedSize(true);
             rvSede.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -99,6 +107,17 @@ public class SedeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    u = data.getParcelableExtra(Constants.EXTRA_USER);
+                }
+            }
+        }
+    }
+
     private void cargarSedeFirebase() {
         final Sede sede;
 
@@ -128,6 +147,14 @@ public class SedeActivity extends AppCompatActivity {
                                 sedes_array.add(sede);
                                 SedeAdapter sedeadapter = new SedeAdapter(sedes_array);
                                 rvSede.setAdapter(sedeadapter);
+
+                                if(sedes_array.size()==0){
+                                    rvSede.setVisibility(View.GONE);
+                                    emtpyTv.setVisibility(View.VISIBLE);
+                                }else{
+                                    rvSede.setVisibility(View.VISIBLE);
+                                    emtpyTv.setVisibility(View.GONE);
+                                }
                                 //Al objeto sede le obtengo el HasMap de poblacion
 
                             }
