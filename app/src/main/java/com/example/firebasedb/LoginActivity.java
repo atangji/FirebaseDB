@@ -16,8 +16,11 @@ import android.widget.Toast;
 import com.example.firebasedb.Model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,9 +34,8 @@ import java.util.UUID;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
-
+    private TextInputLayout textPassword, custom_end_icon;
     private EditText textEmail;
-    private EditText textPassword;
     private Button btnLogin;
     private ProgressDialog progressDialog;
     private TextView textViewRegistrar;
@@ -80,8 +82,11 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
+        textPassword = (TextInputLayout) findViewById(R.id.txtPassword);
+
+        custom_end_icon = (TextInputLayout) findViewById(R.id.custom_end_icon);
+
         textEmail = (EditText) findViewById(R.id.txtEmail);
-        textPassword=(EditText) findViewById(R.id.txtPassword);
         tvRecordarPassword = (TextView) findViewById(R.id.tVrecordarPassword);
 
         textViewRegistrar=(TextView) findViewById(R.id.txtVregistrar);
@@ -98,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
              }
          });
 
+        textPassword.setHintEnabled(false);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,11 +140,16 @@ public class LoginActivity extends AppCompatActivity {
 
         //obtenemos mail y contraseña
         final String email= textEmail.getText().toString().trim().toLowerCase();
-        String password = textPassword.getText().toString().trim();
+        String password = textPassword.getEditText().getText().toString().trim();
 
         //Verificamos cajas no vacías
         if(TextUtils.isEmpty(email)){
             Toast.makeText(this,"Se debe insertar un usuario",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if(!email.contains("@")){
+            Toast.makeText(this,"Se debe insertar un correo electrónico",Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -147,30 +158,28 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        progressDialog.setMessage("Realizando consulta en linea..");
+        progressDialog.setMessage("Autenticando...");
         progressDialog.show();
 
-        //Creamos un nuevo usuario
+        //Nos logamos con el usuario
         firebaseAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         //Comprobamos si es correcto
-                        if (task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this,"Bienvenido: "+ textEmail.getText(),Toast.LENGTH_LONG).show();
+                        if (task.isSuccessful()) {
 
-
-
-                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios/"+firebaseAuth.getCurrentUser().getUid());
+                            Toast.makeText(LoginActivity.this, "Bienvenido: " + textEmail.getText(), Toast.LENGTH_LONG).show();
+                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("usuarios/" + firebaseAuth.getCurrentUser().getUid());
 
                             mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     Usuario user = dataSnapshot.getValue(Usuario.class);
 
-                                    Intent i=new Intent(getApplicationContext(), MainActivity.class);
-                                    i.putExtra(RegistroActivity.EXTRA_USER,user);
+                                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                    i.putExtra(RegistroActivity.EXTRA_USER, user);
                                     startActivity(i);
                                 }
 
@@ -179,25 +188,39 @@ public class LoginActivity extends AppCompatActivity {
 
                                 }
                             });
-                            //CApturamos el usuario para mandarlo a la siguiente actividad
-                           /* Integer posicion = email.indexOf("@");
-                            String user = email.substring(0,posicion) ;
-                            Intent intent = new Intent(getApplication(),MainActivity.class);
 
-                            startActivity(intent);*/
-
-                        }else{
+                        } else {
 
 
-                            //Comprobamos si el usuario existe
-                            if(task.getException() instanceof FirebaseAuthUserCollisionException) {//Si el usuario ya existe
+                            String errorCode = ((FirebaseAuthException) task.getException()).getErrorCode();
+                            switch (errorCode) {
+                                case "ERROR_INVALID_EMAIL":
+                                    Toast.makeText(LoginActivity.this, "El email introducido tiene un formato erróneo.", Toast.LENGTH_LONG).show();
+                                    break;
 
-                                Toast.makeText(LoginActivity.this, "El usuario ya existe", Toast.LENGTH_LONG).show();
+                                case "ERROR_WRONG_PASSWORD":
+                                    Toast.makeText(LoginActivity.this, "El password es erróneo.", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "ERROR_USER_MISMATCH":
+                                    Toast.makeText(LoginActivity.this, "El usuario no existe", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                case "ERROR_USER_NOT_FOUND":
+                                    Toast.makeText(LoginActivity.this, "El usuario no existe", Toast.LENGTH_LONG).show();
+                                    break;
+
+                                default:
+
+                                    Toast.makeText(LoginActivity.this, "No se ha podido logar al usuario.", Toast.LENGTH_SHORT).show();
+                                    break;
+
                             }
 
-                            Toast.makeText(LoginActivity.this,"No se pudo logar el usuario",Toast.LENGTH_LONG).show();
+
+
+                            progressDialog.dismiss();
                         }
-                        progressDialog.dismiss();
                     }
                 });
     }

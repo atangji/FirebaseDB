@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.firebasedb.Model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -25,7 +26,8 @@ public class RegistroActivity extends AppCompatActivity {
 
     final static String EXTRA_USER = "USER";
 
-    EditText etNombre, etEmail, etTelefono, etPass, etPassRep;
+    EditText etNombre, etEmail, etTelefono;
+    TextInputLayout etPass, etPassRep;
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
     @Override
@@ -44,8 +46,11 @@ public class RegistroActivity extends AppCompatActivity {
         etNombre = (EditText) findViewById(R.id.etRegistroNombre);
         etEmail = (EditText) findViewById(R.id.etRegistroEmail);
         etTelefono = (EditText) findViewById(R.id.etRegistroTelefono);
-        etPass = (EditText) findViewById(R.id.etRegistroPassword);
-        etPassRep = (EditText) findViewById(R.id.etRegistroRepPassword);
+        etPass = (TextInputLayout) findViewById(R.id.etRegistroPassword);
+        etPassRep = (TextInputLayout) findViewById(R.id.etRegistroRepPassword);
+
+        etPass.setHintEnabled(false);
+        etPassRep.setHintEnabled(false);
     }
 
     public void clickRegistrar(View view) {
@@ -53,8 +58,8 @@ public class RegistroActivity extends AppCompatActivity {
         String nombre = etNombre.getText().toString();
         String email = etEmail.getText().toString();
         String telefono_str = etTelefono.getText().toString();
-        String pass = etPass.getText().toString();
-        String pass_rep = etPassRep.getText().toString();
+        String pass = etPass.getEditText().getText().toString();
+        String pass_rep = etPassRep.getEditText().getText().toString();
 
         if(TextUtils.isEmpty(nombre) || TextUtils.isEmpty(email) || TextUtils.isEmpty(telefono_str) ||
                 TextUtils.isEmpty(pass) || TextUtils.isEmpty(pass_rep)){

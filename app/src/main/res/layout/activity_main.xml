@@ -24,7 +24,14 @@
             app:menu_fab_label="Menu"
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
-            app:backgroundTint="#E60000"
+            app:backgroundTint="#F44336"
+            app:rippleColor="#00E2D1D1"
+            app:fab_shadowRadius="4dp"
+            app:fab_shadowXOffset="1dp"
+            app:fab_shadowYOffset="3dp"
+            app:fab_size="normal"
+            app:fab_showAnimation="@anim/fab_scale_up"
+            app:fab_hideAnimation="@anim/fab_scale_down"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true">
 
@@ -35,7 +42,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:fab_label="Crear ticket"
-                    app:backgroundTint="#E60000"
+                    app:backgroundTint="#F44336"
+                    app:rippleColor="#00E2D1D1"
+                    app:fab_size="mini"
                     android:src="@drawable/ic_agregar"/>
 
                 <com.github.clans.fab.FloatingActionButton
@@ -44,7 +53,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:fab_label="Sedes"
-                    app:backgroundTint="#E60000"
+                    app:backgroundTint="#F44336"
+                    app:rippleColor="#00E2D1D1"
+                    app:fab_size="mini"
                     android:src="@drawable/ic_sedes"/>
 
         </com.github.clans.fab.FloatingActionMenu>

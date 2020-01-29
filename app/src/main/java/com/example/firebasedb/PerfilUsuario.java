@@ -21,6 +21,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,13 +33,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 public class PerfilUsuario extends AppCompatActivity {
 
 
 
     Usuario u;
     TextView tvMail,tvErrorPerfil, tvErrorPass;
-    EditText etNombre, etTelefono, etPass, etPassRep;
+    EditText etNombre, etTelefono;
+    TextInputLayout etPass,etPassRep;
     Button btnEditarUsuario, btnCambiarPassword;
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
@@ -77,8 +84,10 @@ public class PerfilUsuario extends AppCompatActivity {
         etNombre = (EditText) findViewById(R.id.etPerfilNombre);
         //tvMail = (TextView) findViewById(R.id.tvPerfilCorreo);
         etTelefono = (EditText) findViewById(R.id.etPerfilTelefono);
-        etPass = (EditText) findViewById(R.id.eTPerfilPassword);
-        etPassRep = (EditText) findViewById(R.id.eTPerfilRepitePassword);
+        etPass = (TextInputLayout) findViewById(R.id.eTPerfilPassword);
+        etPass.setHintEnabled(false);
+        etPassRep = (TextInputLayout) findViewById(R.id.eTPerfilRepitePassword);
+        etPassRep.setHintEnabled(false);
 
         btnCambiarPassword = (Button) findViewById(R.id.btnPerfilCambiaPassword);
         btnEditarUsuario = (Button) findViewById(R.id.btnPerfilEditarUsuario);
@@ -194,8 +203,8 @@ public class PerfilUsuario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String StrPass = etPass.getText().toString();
-                String StrPassRep = etPassRep.getText().toString();
+                final String StrPass = etPass.getEditText().getText().toString();
+                String StrPassRep = etPassRep.getEditText().getText().toString();
                 Boolean errorPass =false;
 
 
@@ -224,60 +233,62 @@ public class PerfilUsuario extends AppCompatActivity {
 
 
                 if(!errorPass){
-                    //Guarda los cambios
-                    u.setPassword(StrPass);
 
                     FirebaseUser user = mAuth.getCurrentUser();
-                    user.updatePassword(StrPass)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-
-                                    if(task.isSuccessful()){
-
-                                        mDatabase.child("usuarios").child(u.getId()).setValue(u,new DatabaseReference.CompletionListener() {
+                    if(user!= null){
 
 
+                        user.updatePassword(StrPass)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
 
-                                            @Override
-                                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                                if (databaseError == null) {
-                                                    progressDialog.dismiss();
+                                        if(task.isSuccessful()){
 
-                                                    Toast.makeText(getApplicationContext(), "Nuevo password guardado", Toast.LENGTH_LONG).show();
-                                                    /*Intent i = new Intent(getApplicationContext(), PerfilUsuario.class);
-                                                    i.putExtra(Constants.EXTRA_USER, u);
-                                                    startActivity(i);
-                                                    */
+                                            //Guarda los cambios en el objeto del nuevo pass
+                                            u.setPassword(StrPass);
+                                            mDatabase.child("usuarios").child(u.getId()).setValue(u,new DatabaseReference.CompletionListener() {
 
 
-                                                } else {
-                                                    progressDialog.dismiss();
 
-                                                    //HACE FALTA METER ALGÚN CONTROL? PORQUE HABRÍA GUARDADO EL PASSWORD EN AUTENTICATION PERO NO EN BBDD
+                                                @Override
+                                                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                                    if (databaseError == null) {
+                                                        progressDialog.dismiss();
 
-                                                    //Toast.makeText(getApplicationContext(), "Ups¡ No se han podido guardar los datos", Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext(), "Nuevo password guardado", Toast.LENGTH_LONG).show();
+                                                        /*Intent i = new Intent(getApplicationContext(), PerfilUsuario.class);
+                                                        i.putExtra(Constants.EXTRA_USER, u);
+                                                        startActivity(i);
+                                                        */
+
+
+                                                    } else {
+                                                        progressDialog.dismiss();
+
+                                                        //HACE FALTA METER ALGÚN CONTROL? PORQUE HABRÍA GUARDADO EL PASSWORD EN AUTENTICATION PERO NO EN BBDD
+
+                                                        //Toast.makeText(getApplicationContext(), "Ups¡ No se han podido guardar los datos", Toast.LENGTH_LONG).show();
+
+                                                    }
 
                                                 }
 
-                                            }
 
-
-                                            //CALLBACK NO ACTUALIZA DATOS DEL OBJETO USUARIO ???
-                                        });
+                                                //CALLBACK NO ACTUALIZA DATOS DEL OBJETO USUARIO ???
+                                            });
 
 
 
-                                    }else{
+                                        }else{
 
-                                        Toast.makeText(getApplicationContext(), "Ups¡ No se han podido guardar los datos", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Ups¡ No se han podido guardar los datos", Toast.LENGTH_LONG).show();
+                                        }
+
                                     }
+                                });
 
-                                }
-                            });
-
-                    //AUTH
-
+                    }
                 }
 
             }

@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <item android:id="@+id/menu_item1"
-            android:icon="@drawable/user"
-            android:title="Ver perfil" />
+        <item android:title="más"
+                android:icon="@drawable/ic_more"
+                app:showAsAction="always">
 
-        <item android:id="@+id/menu_item2"
-            android:icon="@drawable/logout"
-            android:title="Cerrar sesión" />
+
+                <menu>
+                        <item android:id="@+id/menu_item1"
+                            android:icon="@drawable/ic_settings"
+                            android:title="Ver perfil" />
+
+                        <item android:id="@+id/menu_item2"
+                            android:icon="@drawable/ic_exit_to_app_red_24dp"
+                            android:title="Cerrar sesión" />
+
+                </menu>
+
+        </item>
 </menu>
