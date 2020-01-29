@@ -9,26 +9,15 @@
 
 
     <TextView
-        android:id="@+id/tViewNumTioket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/numTicket"
-        android:textColor="#F83A2E2E"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/tViewTipoticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TIPO TICKET:"
+        android:layout_marginTop="56dp"
+        android:text="Tipo ticket:"
         android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tViewNumTioket" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvTipoTicket"
@@ -164,7 +153,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:background="@drawable/buttonred_2"
-        android:drawableLeft="@drawable/ic_save"
         android:text="Guardar"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"

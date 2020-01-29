@@ -34,7 +34,7 @@ import java.util.UUID;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
-    private TextInputLayout textPassword, custom_end_icon;
+    private TextInputLayout textPassword;
     private EditText textEmail;
     private Button btnLogin;
     private ProgressDialog progressDialog;
@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
 
         textPassword = (TextInputLayout) findViewById(R.id.txtPassword);
 
-        custom_end_icon = (TextInputLayout) findViewById(R.id.custom_end_icon);
 
         textEmail = (EditText) findViewById(R.id.txtEmail);
         tvRecordarPassword = (TextView) findViewById(R.id.tVrecordarPassword);

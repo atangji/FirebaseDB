@@ -3,6 +3,7 @@ package com.example.firebasedb;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.firebasedb.Model.Usuario;
+import com.example.firebasedb.Utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,6 +32,8 @@ public class RegistroActivity extends AppCompatActivity {
     TextInputLayout etPass, etPassRep;
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,8 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void initViews(){
 
+
+        progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -80,19 +86,31 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void registroFirebase(final Usuario user){
 
+
+
+        progressDialog.setMessage("Creando usuario..");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
         mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+
+                    progressDialog.dismiss();
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     user.setId(firebaseUser.getUid());
                     mDatabase.child("usuarios").child(firebaseUser.getUid()).setValue(user);
-
+                    Toast.makeText(getApplicationContext(), "Se ha creado el usuario con éxito", Toast.LENGTH_LONG).show();
                     Intent i=new Intent(getApplicationContext(), MainActivity.class);
                     i.putExtra(EXTRA_USER,user);
                     startActivity(i);
-
+                    finish();
                 }else{
+
+
+                    progressDialog.dismiss();
+
                     try{
                         throw task.getException();
                     } catch(FirebaseAuthInvalidCredentialsException e){

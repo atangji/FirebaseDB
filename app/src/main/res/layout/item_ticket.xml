@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/md_red_A100"
+    app:cardBackgroundColor="@color/md_grey_200"
     app:cardElevation="@dimen/cardview_default_elevation"
     android:layout_height="wrap_content">
 
@@ -20,7 +20,7 @@
         android:id="@+id/tvItemID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:textSize="16dp"
         android:textAlignment="viewEnd"
         android:text="TextView" />
@@ -29,7 +29,7 @@
         android:id="@+id/tvFecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:text="TextView" />
 
@@ -37,7 +37,7 @@
         android:id="@+id/tvSede"
         android:layout_width="match_parent"
         android:textSize="22dp"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
@@ -45,7 +45,7 @@
         android:id="@+id/tvTipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:textSize="22dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="TextView" />

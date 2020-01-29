@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/md_red_A100"
+    app:cardBackgroundColor="@color/md_grey_200"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="8dp"
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tvDireccion"
         android:layout_width="match_parent"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
 
         android:layout_height="wrap_content"
@@ -28,14 +28,14 @@
     <TextView
         android:id="@+id/tvCP"
         android:layout_width="match_parent"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:textSize="20dp"
         android:layout_height="wrap_content"
         android:text="TextView" />
     <TextView
         android:id="@+id/tvPoblacion"
         android:layout_width="match_parent"
-        android:textColor="@color/blanco"
+        android:textColor="@color/md_grey_800"
         android:textSize="20dp"
         android:layout_height="wrap_content"
         android:text="TextView" />

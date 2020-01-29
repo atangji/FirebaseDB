@@ -3,6 +3,7 @@ package com.example.firebasedb;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.ResultReceiver;
@@ -43,7 +44,6 @@ public class DetalleTicketActivity extends AppCompatActivity {
 
     Ticket t;
     TextView tvTipoTicket;
-    TextView tvNumTioket;
     TextView tvSedeTicket;
     TextView tvFechaCreacion;
     TextView tvDetalleTicket;
@@ -59,6 +59,8 @@ public class DetalleTicketActivity extends AppCompatActivity {
     boolean noTieneResolucion = true;
     String id_res;
     Resolucion res;
+
+    private ProgressDialog progressDialog;
     //...
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +76,8 @@ public class DetalleTicketActivity extends AppCompatActivity {
             tvSedeTicket.setText((t.getSedeobj().getDireccion()));
             tvFechaCreacion.setText(t.getFecha_creacion());
             tvDetalleTicket.setText(t.getComentario());
-            setTitle("NUM TICKET: "+t.getId());
+
+            setTitle("ID Ticket: "+t.getId());
             cargarResolucion();
         }
     }
@@ -96,7 +99,6 @@ public class DetalleTicketActivity extends AppCompatActivity {
     }
 
     private void initViews(){
-        tvNumTioket = (TextView) findViewById(R.id.tViewNumTioket);
         tvTipoTicket = (TextView) findViewById(R.id.tvTipoTicket);
         tvSedeTicket = (TextView) findViewById(R.id.tvSedeTicket);
         tvFechaCreacion = (TextView) findViewById(R.id.tvFechaCreacion);
@@ -107,31 +109,48 @@ public class DetalleTicketActivity extends AppCompatActivity {
         btnInsertar = (Button) findViewById(R.id.btnInsertarSol);
         ckboxResuelto = (CheckBox) findViewById(R.id.ckboxResuelto);
 
-        if(ckboxResuelto.isChecked()){
-            resuelto = true;
-        }
+        progressDialog = new ProgressDialog(this);
+
+
 
         btnInsertar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(ckboxResuelto.isChecked()){
+                    resuelto = true;
+                }
+
                 if(TextUtils.isEmpty(etSolucion.getText().toString())){
                     Toast.makeText(getApplicationContext(), "Debes de rellenar la solucion", Toast.LENGTH_LONG).show();
 
                 }else{
                     HashMap<String, Boolean> idTicket = new HashMap<>();
                     idTicket.put(t.getId(),true);
+
+
+                    progressDialog.setMessage("Guardando ticket..");
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.show();
+
                     if(noTieneResolucion){
                         id_res = UUID.randomUUID().toString();
                         setFechaHora();
-                        Resolucion nuevaResolucion = new Resolucion(id_res, fecha,  etSolucion.getText().toString(),"backend",idTicket, resuelto);
+                        Resolucion nuevaResolucion = new Resolucion(id_res, fecha,  "("+fecha+"): "+etSolucion.getText().toString(),"backend",idTicket, resuelto);
                         mDatabase = FirebaseDatabase.getInstance().getReference();
                         mDatabase.child("resolucion").child(id_res).setValue(nuevaResolucion);
+                        etSolucion.setText("");
+                        progressDialog.dismiss();
                     }else{
                         setFechaHora();
-                        res.setComentario("("+res.getFecha()+"): "+res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString()));
+                        //                        res.setComentario("("+res.getFecha()+"): "+res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString()));
+                        res.setComentario((res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString())));
                         res.setFecha(fecha);
+                        res.setResuelto(resuelto);
                         mDatabase = FirebaseDatabase.getInstance().getReference();
                         mDatabase.child("resolucion").child(res.getId()).setValue(res);
+                        etSolucion.setText("");
+                        progressDialog.dismiss();
                     }
 
 
@@ -147,13 +166,23 @@ public class DetalleTicketActivity extends AppCompatActivity {
         tvFechaSolTicket.setText(r.getFecha());
         tvSolucionTicket.setText(r.getComentario());
         ckboxResuelto.setChecked(r.getResuelto());
+        resuelto=r.getResuelto();
         res = r;
 
         if(u.getId().equals(Constants.ID_ADMIN)){
 
-            etSolucion.setVisibility(View.VISIBLE);
-            btnInsertar.setVisibility(View.VISIBLE);
-            ckboxResuelto.setEnabled(true);
+            if(resuelto){
+
+                etSolucion.setVisibility(View.GONE);
+                btnInsertar.setVisibility(View.GONE);
+                ckboxResuelto.setEnabled(false);
+            }else{
+
+                etSolucion.setVisibility(View.VISIBLE);
+                btnInsertar.setVisibility(View.VISIBLE);
+                ckboxResuelto.setEnabled(true);
+
+            }
 
 
         }else{
@@ -184,12 +213,25 @@ public class DetalleTicketActivity extends AppCompatActivity {
     private void enabledResolucion(){
 
         if(u.getId().equals(Constants.ID_ADMIN)){
-           etSolucion.setVisibility(View.VISIBLE);
-           btnInsertar.setVisibility(View.VISIBLE);
-           ckboxResuelto.setVisibility(View.VISIBLE);
 
-           setFechaHora();
-           tvFechaSolTicket.setText(fecha);
+           if(resuelto){
+
+               etSolucion.setVisibility(View.GONE);
+               btnInsertar.setVisibility(View.GONE);
+               ckboxResuelto.setVisibility(View.VISIBLE);
+               ckboxResuelto.setEnabled(false);
+               setFechaHora();
+               tvFechaSolTicket.setText(fecha);
+
+           }else{
+
+               etSolucion.setVisibility(View.VISIBLE);
+               btnInsertar.setVisibility(View.VISIBLE);
+               ckboxResuelto.setVisibility(View.VISIBLE);
+               ckboxResuelto.setEnabled(true);
+               setFechaHora();
+               tvFechaSolTicket.setText(fecha);
+           }
 
         }else{
 

@@ -113,9 +113,13 @@ public class InsertarSedeActivity extends AppCompatActivity {
                                 if (databaseError == null) {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Se insertó la sede con éxito", Toast.LENGTH_LONG).show();
-                                    Intent i=new Intent(getApplicationContext(), SedeActivity.class);
+                                    /*Intent i=new Intent(getApplicationContext(), SedeActivity.class);
                                     i.putExtra(Constants.EXTRA_USER, u);
                                     startActivity(i);
+                                    finish();*/
+                                    Intent back = getIntent();
+                                    back.putExtra(Constants.EXTRA_USER, u);
+                                    setResult(RESULT_OK, back);
                                     finish();
                                 } else {
                                     progressDialog.dismiss();

@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-        <item android:id="@+id/menu_item2"
-            android:icon="@drawable/ic_launcher_background"
-            android:title="Cerrar sesión" />
+
+        <item android:title="más"
+            android:icon="@drawable/ic_more"
+            app:showAsAction="always">
+
+
+                <menu>
+
+
+                        <item android:id="@+id/menu_item2"
+                            android:iconTint="@color/blanco"
+                            android:icon="@drawable/ic_exit_to_app_red_24dp"
+                            android:title="Cerrar sesión" />
+
+                </menu>
+
+        </item>
 </menu>
