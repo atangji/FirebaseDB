@@ -1,11 +1,14 @@
 package com.example.firebasedb;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
 import com.example.firebasedb.Model.Poblacion;
 import com.example.firebasedb.Model.Sede;
+import com.example.firebasedb.Model.Usuario;
+import com.example.firebasedb.Utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +51,7 @@ public class InsertarSedeActivity extends AppCompatActivity {
     String poblacion_seleccionado;
     String provincia_seleccionado;
     String id_poblacion_seleccionado;
+    Usuario u;
     ArrayList<Poblacion> poblaciones_seleccionda=new ArrayList<Poblacion>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,13 @@ public class InsertarSedeActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-initViews();
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+
+            u = bundle.getParcelable(Constants.EXTRA_USER);
+
+            initViews();
+        }
     }
     private void initViews(){
         progressDialog = new ProgressDialog(this);
@@ -100,7 +110,9 @@ initViews();
                                 if (databaseError == null) {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Se insertó la sede con éxito", Toast.LENGTH_LONG).show();
-
+                                    Intent i=new Intent(getApplicationContext(), SedeActivity.class);
+                                    i.putExtra(Constants.EXTRA_USER, u);
+                                    startActivity(i);
                                 } else {
                                     progressDialog.dismiss();
                                     Toast.makeText(getApplicationContext(), "Ups¡ No se ha podido guardar la sede", Toast.LENGTH_LONG).show();

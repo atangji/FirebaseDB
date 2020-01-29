@@ -40,6 +40,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     private void cargarTicketFirebase(){
         final Ticket ticket;
         mDatabase = FirebaseDatabase.getInstance().getReference("ticket");
+
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                                             tickets_array.add(ticket);
+                                            Collections.reverse(tickets_array);
                                             TicketAdapter adapter = new TicketAdapter(tickets_array);
                                             rvTicket.setAdapter(adapter);
                                             adapter.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         };
-        mDatabase.addValueEventListener(postListener);
+        mDatabase.orderByChild("fecha_creacion").addValueEventListener(postListener);
     }
 
 

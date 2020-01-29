@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class InsertarTicketActivity extends AppCompatActivity {
@@ -103,10 +104,11 @@ public class InsertarTicketActivity extends AppCompatActivity {
                     ticket_usuario.put(u.getId(),true);
                     //ID ticket
                     String ticket_id = UUID.randomUUID().toString();
+                    ticket_id = ticket_id.substring(0,6);
                     //fecha
                     String fecha ="1900-01-01";
-                    Calendar cal = Calendar.getInstance();
-                    cal.add(Calendar.DATE, 1);
+                    Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                    cal.add(Calendar.HOUR, +1);
                     SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     fecha = format1.format(cal.getTime());
 
@@ -122,7 +124,9 @@ public class InsertarTicketActivity extends AppCompatActivity {
                             if (databaseError == null) {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Se insertó el ticket con éxito", Toast.LENGTH_LONG).show();
-
+                                Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                                i.putExtra(Constants.EXTRA_USER, u);
+                                startActivity(i);
                             } else {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Ups¡ No se ha podido guardar el ticket", Toast.LENGTH_LONG).show();

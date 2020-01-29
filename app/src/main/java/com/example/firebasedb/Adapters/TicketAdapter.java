@@ -64,7 +64,7 @@ public class TicketAdapter  extends RecyclerView.Adapter<TicketAdapter.ViewHolde
 
 public class ViewHolderTicket extends RecyclerView.ViewHolder {
     private View mView;
-    TextView tvSede,tvFecha, tvTipo;
+    TextView tvSede,tvFecha, tvTipo,tvId;
 
     private Context mContext;
     Ticket ticket;
@@ -75,7 +75,9 @@ public class ViewHolderTicket extends RecyclerView.ViewHolder {
         tvTipo = (TextView)itemView.findViewById(R.id.tvTipo);
         tvFecha = (TextView)itemView.findViewById(R.id.tvFecha);
         tvSede = (TextView)itemView.findViewById(R.id.tvSede);
+        tvId = (TextView)itemView.findViewById(R.id.tvItemID);
         this.mContext=c;
+
 
 
     }
@@ -85,6 +87,7 @@ public class ViewHolderTicket extends RecyclerView.ViewHolder {
         tvFecha.setText(t.getFecha_creacion());
          tvSede.setText(t.getSedeobj().getDireccion());
          tvTipo.setText(t.getTipoobj().getTipo_nombre());
+         tvId.setText("#"+t.getId());
     }
 
 
