@@ -105,6 +105,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
                     //ID ticket
                     String ticket_id = UUID.randomUUID().toString();
                     ticket_id = ticket_id.substring(0,6);
+
                     //fecha
                     String fecha ="1900-01-01";
                     Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
@@ -112,7 +113,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
                     SimpleDateFormat format1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                     fecha = format1.format(cal.getTime());
 
-                    Ticket ticket = new Ticket(comentario, fecha, ticket_id, ticket_sede, ticket_tipo, ticket_usuario);
+                    Ticket ticket = new Ticket(comentario, fecha, ticket_id,ticket_sede, ticket_tipo, ticket_usuario);
                     mDatabase = FirebaseDatabase.getInstance().getReference();
 
                     progressDialog.setMessage("Insertando ticket..");

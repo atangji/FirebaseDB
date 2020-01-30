@@ -149,6 +149,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
                         res.setResuelto(resuelto);
                         mDatabase = FirebaseDatabase.getInstance().getReference();
                         mDatabase.child("resolucion").child(res.getId()).setValue(res);
+
                         etSolucion.setText("");
                         progressDialog.dismiss();
                     }

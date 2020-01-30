@@ -26,6 +26,7 @@ import android.widget.Toolbar;
 import com.example.firebasedb.Adapters.SedeAdapter;
 import com.example.firebasedb.Adapters.TicketAdapter;
 import com.example.firebasedb.Model.Poblacion;
+import com.example.firebasedb.Model.Resolucion;
 import com.example.firebasedb.Model.Sede;
 import com.example.firebasedb.Model.Ticket;
 import com.example.firebasedb.Model.Tipo;
@@ -261,4 +262,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

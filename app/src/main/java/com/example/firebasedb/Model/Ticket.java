@@ -24,7 +24,7 @@ public class Ticket implements Parcelable {
 
     }
 
-    public Ticket(String comentario, String fecha_creacion, String id, HashMap<String, Boolean> sede, HashMap<String, Boolean> tipo, HashMap<String, Boolean> usuario) {
+    public Ticket(String comentario, String fecha_creacion, String id,  HashMap<String, Boolean> sede, HashMap<String, Boolean> tipo, HashMap<String, Boolean> usuario) {
         this.comentario = comentario;
         this.fecha_creacion = fecha_creacion;
         this.id = id;
@@ -33,7 +33,7 @@ public class Ticket implements Parcelable {
         this.usuarios = usuario;
     }
 
-    public Ticket(String comentario, String fecha_creacion, String id, Sede sedeobj, Tipo tipoobj, Usuario tipousu) {
+    public Ticket(String comentario, String fecha_creacion, String id,   Sede sedeobj, Tipo tipoobj, Usuario tipousu) {
         this.comentario = comentario;
         this.fecha_creacion = fecha_creacion;
         this.id = id;
@@ -82,6 +82,14 @@ public class Ticket implements Parcelable {
 
     public String getId() {
         return id;
+    }
+
+
+
+
+
+    public static Creator<Ticket> getCREATOR() {
+        return CREATOR;
     }
 
     public void setId(String id) {
