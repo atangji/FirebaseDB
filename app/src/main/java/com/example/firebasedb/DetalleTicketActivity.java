@@ -138,20 +138,56 @@ public class DetalleTicketActivity extends AppCompatActivity {
                         setFechaHora();
                         Resolucion nuevaResolucion = new Resolucion(id_res, fecha,  "("+fecha+"): "+etSolucion.getText().toString(),"backend",idTicket, resuelto);
                         mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("resolucion").child(id_res).setValue(nuevaResolucion);
-                        etSolucion.setText("");
-                        progressDialog.dismiss();
+                        mDatabase.child("resolucion").child(id_res).setValue(nuevaResolucion,new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                if (databaseError == null) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Se insertó la resolucion con éxito", Toast.LENGTH_LONG).show();
+
+                                    Intent back = getIntent();
+                                    back.putExtra(Constants.EXTRA_USER, u);
+                                    setResult(RESULT_OK, back);
+                                    finish();
+                                } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Ups¡ No se ha podido guardar la resolucion", Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+
+                        });
+
+
                     }else{
                         setFechaHora();
-                        //                        res.setComentario("("+res.getFecha()+"): "+res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString()));
-                        res.setComentario((res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString())));
+
+                       res.setComentario((res.getComentario().concat("\n"+"("+fecha+"): "+etSolucion.getText().toString())));
                         res.setFecha(fecha);
                         res.setResuelto(resuelto);
                         mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("resolucion").child(res.getId()).setValue(res);
+                        mDatabase.child("resolucion").child(res.getId()).setValue(res,new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                                if (databaseError == null) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Se insertó la resolucion con éxito", Toast.LENGTH_LONG).show();
 
-                        etSolucion.setText("");
-                        progressDialog.dismiss();
+                                    Intent back = getIntent();
+                                    back.putExtra(Constants.EXTRA_USER, u);
+                                    setResult(RESULT_OK, back);
+                                    finish();
+                                } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getApplicationContext(), "Ups¡ No se ha podido guardar la resolucion", Toast.LENGTH_LONG).show();
+
+                                }
+
+                            }
+
+                        });
+
                     }
 
 

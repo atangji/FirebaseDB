@@ -49,6 +49,17 @@
         android:textSize="22dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvItemResuelto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/blanco"
+        android:background="@color/md_green_700"
+        android:layout_margin="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:text="Resuelto" />
 </LinearLayout>
 
 </androidx.cardview.widget.CardView>

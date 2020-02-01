@@ -67,6 +67,12 @@ public class SedeActivity extends AppCompatActivity {
 
 
             FloatingActionButton fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
+
+            if(Constants.ID_ADMIN.equals(u.getId())){
+
+             fabInsertarSede.setVisibility(View.GONE);
+            }
+
             fabInsertarSede.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

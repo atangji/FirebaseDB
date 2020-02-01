@@ -20,6 +20,8 @@ public class Ticket implements Parcelable {
     Tipo tipoobj;
     Usuario usuobj;
 
+    Boolean solucionado = false;
+
     public Ticket (){
 
     }
@@ -64,6 +66,12 @@ public class Ticket implements Parcelable {
         }
     };
 
+    public void setSolucionado(Boolean sol){
+        this.solucionado = sol;
+    }
+    public Boolean getSolucionado(){
+       return this.solucionado;
+    }
     public String getComentario() {
         return comentario;
     }

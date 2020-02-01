@@ -33,7 +33,7 @@ import com.example.firebasedb.Model.Tipo;
 import com.example.firebasedb.Model.Usuario;
 import com.example.firebasedb.Utils.Constants;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Ticket> tickets_array = new ArrayList<Ticket>();
     Button btnSede;
     TextView emptyTv;
-    FloatingActionButton fabSedes;
     FloatingActionMenu fabMenu;
+    FloatingActionButton fabMenuCrearTicket;
     Usuario u;
     final static String EXTRA_USER = "USER";
 
@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
         fabMenu.setForegroundGravity(Gravity.RIGHT);
@@ -81,11 +80,21 @@ public class MainActivity extends AppCompatActivity {
 
         if(bundle!=null){
             u = bundle.getParcelable(Constants.EXTRA_USER);
+            if(Constants.ID_ADMIN.equals(u.getId())){
 
+                fabMenuCrearTicket = (FloatingActionButton) findViewById(R.id.fabMenuCrearTicket);
+                fabMenu.removeMenuButton(fabMenuCrearTicket);
+                fabMenuCrearTicket.setVisibility(View.GONE);
+            }else{
+
+
+            }
             rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
             rvTicket.setHasFixedSize(true);
             rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             emptyTv = (TextView)findViewById(R.id.tvItemIDTicket);
+
+
             cargarTicketFirebase();
 
         }else{
@@ -143,34 +152,93 @@ public class MainActivity extends AppCompatActivity {
                                     FirebaseDatabase.getInstance().getReference("tipo").child(id_tipo).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            Tipo tipo  = dataSnapshot.getValue(Tipo.class);
-                                            ticket.setTipoobj(tipo);
 
 
-                                            tickets_array.add(ticket);
-                                            Collections.reverse(tickets_array);
-                                            TicketAdapter adapter = new TicketAdapter(tickets_array);
-                                            rvTicket.setAdapter(adapter);
 
-                                            if(tickets_array.size()==0){
-                                                rvTicket.setVisibility(View.GONE);
-                                                emptyTv.setVisibility(View.VISIBLE);
-                                            }else{
-                                                rvTicket.setVisibility(View.VISIBLE);
-                                                emptyTv.setVisibility(View.GONE);
-                                            }
 
-                                            adapter.setOnClickListener(new View.OnClickListener() {
+                                            FirebaseDatabase.getInstance().getReference("resolucion").addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
-                                                public void onClick(View v) {
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                 Ticket t = tickets_array.get(rvTicket.getChildAdapterPosition(v));
-                                                 Intent i = new Intent(getApplicationContext(), DetalleTicketActivity.class);
-                                                 i.putExtra("TICKET", t);
-                                                 i.putExtra(RegistroActivity.EXTRA_USER, u);
-                                                 startActivity(i);
+                                                    for(DataSnapshot resoluciones: dataSnapshot.getChildren()) {
+                                                        Resolucion resolucion  = resoluciones.getValue(Resolucion.class);
+
+                                                        for (Map.Entry<String, Boolean> entry : resolucion.getTicket().entrySet()) {
+                                                            String ticketId = entry.getKey();
+
+                                                            if (ticketId.equals(ticket.getId())) {
+                                                                ticket.setSolucionado(resolucion.getResuelto());
+                                                            }
+                                                        }
+                                                    }
+
+
+                                                        Tipo tipo = dataSnapshot.getValue(Tipo.class);
+                                                        ticket.setTipoobj(tipo);
+
+
+                                                        tickets_array.add(ticket);
+                                                        Collections.reverse(tickets_array);
+                                                        TicketAdapter adapter = new TicketAdapter(tickets_array);
+                                                        rvTicket.setAdapter(adapter);
+
+                                                        if (tickets_array.size() == 0) {
+                                                            rvTicket.setVisibility(View.GONE);
+                                                            emptyTv.setVisibility(View.VISIBLE);
+                                                        } else {
+                                                            rvTicket.setVisibility(View.VISIBLE);
+                                                            emptyTv.setVisibility(View.GONE);
+                                                        }
+
+                                                        adapter.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+
+                                                                Ticket t = tickets_array.get(rvTicket.getChildAdapterPosition(v));
+                                                                Intent i = new Intent(getApplicationContext(), DetalleTicketActivity.class);
+                                                                i.putExtra("TICKET", t);
+                                                                i.putExtra(RegistroActivity.EXTRA_USER, u);
+                                                                startActivity(i);
+                                                            }
+                                                        });
+
+
+
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                                                 }
                                             });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                         }
 
                                         @Override
