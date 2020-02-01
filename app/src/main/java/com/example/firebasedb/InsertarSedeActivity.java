@@ -77,6 +77,12 @@ public class InsertarSedeActivity extends AppCompatActivity {
         etDireccion = (EditText) findViewById(R.id.eTextSedeDir);
         eTextProvinciaSede = (TextView) findViewById(R.id.eTextProvinciaSede);
         eTextPoblacionSede = (Spinner) findViewById(R.id.eTextPoblacionSede);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

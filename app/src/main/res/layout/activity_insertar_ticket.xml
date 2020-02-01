@@ -9,17 +9,15 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-
-            android:background="@color/md_red_700"
-            app:titleTextColor="@color/blanco"
-            app:title="CREAR TICKET"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:titleTextColor="#E60000"
+            app:title="Crear ticket"
+            app:popupTheme="@style/AppTheme.NoActionBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
