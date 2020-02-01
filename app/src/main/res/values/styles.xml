@@ -14,7 +14,7 @@
     <style name="CustomToolBarStyle" parent="@style/Widget.AppCompat.Toolbar">
         <item name="titleTextColor">#E60000</item>
         <!-- Customize color of navigation drawer icon and back arrow -->
-        <item name="colorControlNormal">#E60000</item>
+
     </style>
 
 

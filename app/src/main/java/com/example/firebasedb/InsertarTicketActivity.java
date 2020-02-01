@@ -76,6 +76,10 @@ public class InsertarTicketActivity extends AppCompatActivity {
         eTextTipoTicket = (Spinner)findViewById(R.id.eTextTipoTicket);
         eTextSedeTicket = (Spinner)findViewById(R.id.eTextSedeTicket);
         eTextDetalleTicket = (EditText) findViewById(R.id.eTextDetalleTicket);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         progressDialog = new ProgressDialog(this);
         FloatingActionButton fab = findViewById(R.id.fab);

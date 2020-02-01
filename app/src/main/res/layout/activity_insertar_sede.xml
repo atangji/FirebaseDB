@@ -9,16 +9,15 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="CREAR SEDE"
-            android:background="@color/md_red_700"
-            app:titleTextColor="@color/blanco"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:title="Crear sede"
+            app:titleTextColor="#E60000"
+            app:popupTheme="@style/AppTheme.NoActionBar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
