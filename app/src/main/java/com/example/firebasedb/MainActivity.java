@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-
+                                            Tipo tipo = dataSnapshot.getValue(Tipo.class);
+                                            ticket.setTipoobj(tipo);
 
                                             FirebaseDatabase.getInstance().getReference("resolucion").addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -172,9 +173,6 @@ public class MainActivity extends AppCompatActivity {
                                                         }
                                                     }
 
-
-                                                        Tipo tipo = dataSnapshot.getValue(Tipo.class);
-                                                        ticket.setTipoobj(tipo);
 
 
                                                         tickets_array.add(ticket);
