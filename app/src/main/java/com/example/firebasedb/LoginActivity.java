@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 import com.example.firebasedb.Model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,31 +38,26 @@ import java.util.UUID;
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
-    private TextInputLayout textPassword;
+    private ProgressDialog progressDialog;
+    private TextInputLayout textPasswordLayout;
+    private TextInputEditText eTextPassword;
     private EditText textEmail;
     private Button btnLogin;
-    private ProgressDialog progressDialog;
-    private TextView textViewRegistrar;
-    private TextView tvRecordarPassword;
+    private TextView textViewRegistrar, tvRecordarPassword;
 
     private String email;
-    private String password;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        initViews();
 
-        firebaseAuth = FirebaseAuth.getInstance();
 
-//firebaseAuth.signOut();
         if(firebaseAuth.getCurrentUser()!=null){
 
-
-            progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Iniciando sesión");
-
             //muestras el ProgressDialog
             progressDialog.show();
 
@@ -82,34 +81,30 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
-        textPassword = (TextInputLayout) findViewById(R.id.txtPassword);
+
+
+}
+
+
+    private void initViews(){
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
+
+        textPasswordLayout = (TextInputLayout) findViewById(R.id.textLayoutPassword);
+        textPasswordLayout.setHintEnabled(false);
+
+        eTextPassword= (TextInputEditText) findViewById(R.id.textInputPassword);
 
 
         textEmail = (EditText) findViewById(R.id.txtEmail);
         tvRecordarPassword = (TextView) findViewById(R.id.tVrecordarPassword);
+        textViewRegistrar = (TextView) findViewById(R.id.txtVregistrar);
+        btnLogin = (Button) findViewById(R.id.btnlogin);
 
-        textViewRegistrar=(TextView) findViewById(R.id.txtVregistrar);
-        btnLogin=(Button) findViewById(R.id.btnlogin);
 
-        progressDialog = new ProgressDialog(this);
 
-        textViewRegistrar.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-
-                 Intent i=new Intent(getApplicationContext(), RegistroActivity.class);
-                 startActivity(i);
-             }
-         });
-
-        textPassword.setHintEnabled(false);
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            logar_usuario();
-            }
-        });
         tvRecordarPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,14 +127,68 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-    }
 
+        //toggling the password view functionality
+        eTextPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(!isFocused){
+                    textPasswordLayout.setPasswordVisibilityToggleEnabled(false);
+                }else{
+
+                    eTextPassword.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            if(eTextPassword.getText().toString().length() > 0) {
+                                textPasswordLayout.setPasswordVisibilityToggleEnabled(true);
+                            }
+                            else{
+                                textPasswordLayout.setPasswordVisibilityToggleEnabled(true);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            textPasswordLayout.setPasswordVisibilityToggleEnabled(true);
+                        }
+                    });
+
+                }
+            }
+        });
+
+        textViewRegistrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i=new Intent(getApplicationContext(), RegistroActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logar_usuario();
+            }
+        });
+
+
+
+    }
 
     private void logar_usuario(){
 
-        //obtenemos mail y contraseña
+        //obtenemos mail y contraseña que ha insertado el usuario:
         final String email= textEmail.getText().toString().trim().toLowerCase();
-        String password = textPassword.getEditText().getText().toString().trim();
+        String password = textPasswordLayout.getEditText().getText().toString().trim();
 
         //Verificamos cajas no vacías
         if(TextUtils.isEmpty(email)){
@@ -147,11 +196,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        //Comprobamos el formato del correo
         if(!email.contains("@")){
             Toast.makeText(this,"Se debe insertar un correo electrónico",Toast.LENGTH_LONG).show();
             return;
         }
 
+        //Comprobamos el campo password no esté vacío
         if(TextUtils.isEmpty(password)){
             Toast.makeText(this,"Se debe insertar un password",Toast.LENGTH_LONG).show();
             return;
@@ -217,7 +268,6 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
 
-
                             progressDialog.dismiss();
                         }
                     }
@@ -226,9 +276,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void resetPassword(){
 
-        //obtenemos mail y contraseña
+        //obtenemos mail
         email = textEmail.getText().toString().trim().toLowerCase();
 
+            //Mandamos correo de reseteo
             firebaseAuth.setLanguageCode("es");
             firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

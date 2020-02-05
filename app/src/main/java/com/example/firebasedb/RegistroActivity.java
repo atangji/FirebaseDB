@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import com.example.firebasedb.Model.Usuario;
 import com.example.firebasedb.Utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +32,8 @@ public class RegistroActivity extends AppCompatActivity {
     final static String EXTRA_USER = "USER";
 
     EditText etNombre, etEmail, etTelefono;
-    TextInputLayout etPass, etPassRep;
+    TextInputLayout etPassLayout, etPassRepLayout;
+    TextInputEditText etPassEtext, etPassRepEtext;
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
     private ProgressDialog progressDialog;
@@ -52,11 +56,90 @@ public class RegistroActivity extends AppCompatActivity {
         etNombre = (EditText) findViewById(R.id.etRegistroNombre);
         etEmail = (EditText) findViewById(R.id.etRegistroEmail);
         etTelefono = (EditText) findViewById(R.id.etRegistroTelefono);
-        etPass = (TextInputLayout) findViewById(R.id.etRegistroPassword);
-        etPassRep = (TextInputLayout) findViewById(R.id.etRegistroRepPassword);
+        etPassLayout = (TextInputLayout) findViewById(R.id.etRegistroPasswordLayout);
+        etPassRepLayout = (TextInputLayout) findViewById(R.id.etRegistroRepPasswordLayout);
+        etPassEtext = (TextInputEditText) findViewById(R.id.etPassEtext);
+        etPassRepEtext = (TextInputEditText) findViewById(R.id.etPassEtextRep);
 
-        etPass.setHintEnabled(false);
-        etPassRep.setHintEnabled(false);
+        etPassLayout.setHintEnabled(false);
+        etPassRepLayout.setHintEnabled(false);
+
+
+
+        //toggling the password view functionality
+        etPassEtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(!isFocused){
+                    etPassLayout.setPasswordVisibilityToggleEnabled(true);
+                }else{
+
+                    etPassEtext.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            if(etPassEtext.getText().toString().length() > 0) {
+                                etPassLayout.setPasswordVisibilityToggleEnabled(true);
+                            }
+                            else{
+                                etPassLayout.setPasswordVisibilityToggleEnabled(true);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            etPassLayout.setPasswordVisibilityToggleEnabled(true);
+                        }
+                    });
+
+                }
+            }
+        });
+
+
+
+        //toggling the password view functionality
+        etPassRepEtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(!isFocused){
+                    etPassRepLayout.setPasswordVisibilityToggleEnabled(false);
+                }else{
+
+                    etPassRepEtext.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            if(etPassRepEtext.getText().toString().length() > 0) {
+                                etPassRepLayout.setPasswordVisibilityToggleEnabled(true);
+                            }
+                            else{
+                                etPassRepLayout.setPasswordVisibilityToggleEnabled(false);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            etPassRepLayout.setPasswordVisibilityToggleEnabled(true);
+                        }
+                    });
+
+                }
+            }
+        });
+
     }
 
     public void clickRegistrar(View view) {
@@ -64,8 +147,8 @@ public class RegistroActivity extends AppCompatActivity {
         String nombre = etNombre.getText().toString();
         String email = etEmail.getText().toString();
         String telefono_str = etTelefono.getText().toString();
-        String pass = etPass.getEditText().getText().toString();
-        String pass_rep = etPassRep.getEditText().getText().toString();
+        String pass = etPassLayout.getEditText().getText().toString();
+        String pass_rep = etPassRepLayout.getEditText().getText().toString();
 
         if(TextUtils.isEmpty(nombre) || TextUtils.isEmpty(email) || TextUtils.isEmpty(telefono_str) ||
                 TextUtils.isEmpty(pass) || TextUtils.isEmpty(pass_rep)){

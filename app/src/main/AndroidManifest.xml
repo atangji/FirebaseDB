@@ -40,9 +40,10 @@
 
         <activity
             android:name=".InsertarTicketActivity"
-            android:label="@string/title_activity_insertar_ticket"
+            android:label="Nuevo ticket"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.firebasedb.MainActivity" />
@@ -54,7 +55,10 @@
                 android:value="com.example.firebasedb.MainActivity" />
         </activity>
 
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+
+            android:label="">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

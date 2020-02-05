@@ -97,7 +97,7 @@
             app:layout_constraintTop_toBottomOf="@+id/etRegistroTelefono" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etRegistroPassword"
+            android:id="@+id/etRegistroPasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="password_toggle"
@@ -107,6 +107,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tViewPasswordRegistro">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassEtext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -126,11 +127,11 @@
             android:textColor="#E60000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etRegistroPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/etRegistroPasswordLayout" />
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etRegistroRepPassword"
+            android:id="@+id/etRegistroRepPasswordLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="password_toggle"
@@ -141,6 +142,7 @@
             tools:layout_editor_absoluteX="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassEtextRep"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -164,7 +166,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etRegistroRepPassword" />
+            app:layout_constraintTop_toBottomOf="@+id/etRegistroRepPasswordLayout" />
 
     </LinearLayout>
 

@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/md_grey_800"
-        android:textSize="16dp"
+        android:textSize="25dp"
+        android:textStyle="bold"
         android:textAlignment="viewEnd"
         android:text="TextView" />
 
@@ -50,16 +51,17 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="TextView" />
 
-    <TextView
-        android:id="@+id/tvItemResuelto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/blanco"
-        android:background="@color/md_green_700"
-        android:layout_margin="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:text="Resuelto" />
-</LinearLayout>
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:id="@+id/ckboxPending"
+        android:layout_gravity="right"
+        android:text="Resuelto"
+        android:textSize="20sp">
+
+    </CheckBox>
+
+</LinearLayout>
 </androidx.cardview.widget.CardView>

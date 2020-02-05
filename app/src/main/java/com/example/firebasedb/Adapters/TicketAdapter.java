@@ -1,9 +1,12 @@
 package com.example.firebasedb.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.firebasedb.Model.Ticket;
@@ -64,7 +67,8 @@ public class TicketAdapter  extends RecyclerView.Adapter<TicketAdapter.ViewHolde
 
 public class ViewHolderTicket extends RecyclerView.ViewHolder {
     private View mView;
-    TextView tvSede,tvFecha, tvTipo,tvId,tvResuelto;
+    TextView tvSede,tvFecha, tvTipo,tvId;
+    CheckBox ckboxPending;
 
     private Context mContext;
     Ticket ticket;
@@ -75,8 +79,8 @@ public class ViewHolderTicket extends RecyclerView.ViewHolder {
         tvTipo = (TextView)itemView.findViewById(R.id.tvTipo);
         tvFecha = (TextView)itemView.findViewById(R.id.tvFecha);
         tvSede = (TextView)itemView.findViewById(R.id.tvSede);
-        tvResuelto = (TextView)itemView.findViewById(R.id.tvItemResuelto);
         tvId = (TextView)itemView.findViewById(R.id.tvItemID);
+        ckboxPending = (CheckBox) itemView.findViewById(R.id.ckboxPending);
         this.mContext=c;
 
 
@@ -90,9 +94,10 @@ public class ViewHolderTicket extends RecyclerView.ViewHolder {
          tvTipo.setText(t.getTipoobj().getTipo_nombre());
          tvId.setText("#"+t.getId());
          if(t.getSolucionado()){
-             tvResuelto.setVisibility(View.VISIBLE);
+             ckboxPending.setChecked(true);
+
          }else{
-             tvResuelto.setVisibility(View.GONE);
+             ckboxPending.setChecked(false);
          }
 
     }

@@ -88,11 +88,12 @@ public class InsertarTicketActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //Comentario
                 String comentario = eTextDetalleTicket.getText().toString();
-                String sede = eTextSedeTicket.getSelectedItem().toString();
-                if (TextUtils.isEmpty(comentario) || TextUtils.isEmpty(sede)) {
+
+                if (TextUtils.isEmpty(comentario) || TextUtils.isEmpty(eTextSedeTicket.getSelectedItem().toString()) || eTextSedeTicket.getSelectedItem()==null) {
                     Toast.makeText(getApplicationContext(), "El comentario y la sede son obligatorios", Toast.LENGTH_LONG).show();
 
                 }else{
+                    String sede = eTextSedeTicket.getSelectedItem().toString();
                     //Sede
                     String idSede = getSede(sede);
                     HashMap<String, Boolean> ticket_sede = new HashMap<>();

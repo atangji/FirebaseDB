@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionMenu fabMenu;
     FloatingActionButton fabMenuCrearTicket;
     Usuario u;
+
+    ArrayList<Sede> sedes_obj_array = new ArrayList<>();
+    ArrayList<String> sedes_array = new ArrayList<>();
+
     final static String EXTRA_USER = "USER";
 
     private DatabaseReference mDatabase;
@@ -68,12 +73,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        initViews();
+
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
         fabMenu.setForegroundGravity(Gravity.RIGHT);
-
 
 
         Bundle bundle = getIntent().getExtras();
@@ -85,15 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 fabMenuCrearTicket = (FloatingActionButton) findViewById(R.id.fabMenuCrearTicket);
                 fabMenu.removeMenuButton(fabMenuCrearTicket);
                 fabMenuCrearTicket.setVisibility(View.GONE);
-            }else{
-
-
             }
-            rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
-            rvTicket.setHasFixedSize(true);
-            rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-            emptyTv = (TextView)findViewById(R.id.tvItemIDTicket);
 
+            rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
             cargarTicketFirebase();
 
@@ -105,7 +103,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    protected void initViews(){
 
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        rvTicket = (RecyclerView)findViewById(R.id.rvTicket);
+        rvTicket.setHasFixedSize(true);
+        emptyTv = (TextView)findViewById(R.id.tvItemIDTicket);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -118,6 +125,39 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    private void cargarSedes() {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("sede");
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot sedes : dataSnapshot.getChildren()) {
+                    final Sede sede = sedes.getValue(Sede.class);
+                    String usuario_id_sede="";
+                    for(Map.Entry<String,Boolean> entry: sede.getUsuarios().entrySet()) {
+                        usuario_id_sede= entry.getKey();
+                        if(usuario_id_sede.equals(u.getId())){
+                            sedes_obj_array.add(sede);
+                            sedes_array.add(sede.getDireccion());
+
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("ERROR", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        mDatabase.addValueEventListener(postListener);
+    }
 
     private void cargarTicketFirebase(){
         final Ticket ticket;
@@ -154,8 +194,7 @@ public class MainActivity extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-                                            Tipo tipo = dataSnapshot.getValue(Tipo.class);
-                                            ticket.setTipoobj(tipo);
+
 
                                             FirebaseDatabase.getInstance().getReference("resolucion").addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -173,6 +212,9 @@ public class MainActivity extends AppCompatActivity {
                                                         }
                                                     }
 
+
+                                                        Tipo tipo = dataSnapshot.getValue(Tipo.class);
+                                                        ticket.setTipoobj(tipo);
 
 
                                                         tickets_array.add(ticket);
@@ -278,10 +320,21 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickCrearTicket(View v){
 
-        Intent i = new Intent(v.getContext(), InsertarTicketActivity.class);
 
-        i.putExtra(Constants.EXTRA_USER, u);
-        startActivity(i);
+        cargarSedes();
+        int sedes = sedes_obj_array.size();
+
+        if (sedes>0) {
+
+            Intent i = new Intent(v.getContext(), InsertarTicketActivity.class);
+
+            i.putExtra(Constants.EXTRA_USER, u);
+            startActivity(i);
+
+        }else{
+
+            Toast.makeText(getApplicationContext(), "El usuario no tiene sedes, tienes que crear una sede para crear un ticket", LENGTH_LONG).show();
+        }
     }
 
     public void clickAbrirSedes(View v){

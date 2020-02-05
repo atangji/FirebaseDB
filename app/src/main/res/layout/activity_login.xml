@@ -14,11 +14,10 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:gravity="center_horizontal"
-        android:text="Bienvenido"
+        android:text="Gestión de incidencias"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:textSize="36dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:paddingTop="8dp"
         android:text="Introduce tu correo y contraseña"
         android:textAlignment="center"
         android:textSize="20dp"
@@ -53,7 +53,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/txtPassword"
+        android:id="@+id/textLayoutPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -61,12 +61,13 @@
         android:layout_marginEnd="8dp"
         android:gravity="center_horizontal"
         android:textAlignment="center"
-        app:endIconMode="password_toggle"
+        app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -83,8 +84,9 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="¿Has olvidado tu contraseña?"
+        android:layout_gravity="right"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textLayoutPassword" />
 
     <Button
         android:id="@+id/btnlogin"
@@ -117,6 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnlogin" />
+
 
 
 </LinearLayout>

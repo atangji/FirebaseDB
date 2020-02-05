@@ -47,6 +47,7 @@ public class SedeActivity extends AppCompatActivity {
     Usuario u;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sede);
 
@@ -55,6 +56,7 @@ public class SedeActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null){
+
             u = bundle.getParcelable(RegistroActivity.EXTRA_USER);
             rvSede = (RecyclerView) findViewById(R.id.rvSede);
             emtpyTv = (TextView) findViewById(R.id.tvEmpty);
@@ -65,9 +67,7 @@ public class SedeActivity extends AppCompatActivity {
 
             cargarSedeFirebase();
 
-
             FloatingActionButton fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
-
             if(Constants.ID_ADMIN.equals(u.getId())){
 
              fabInsertarSede.setVisibility(View.GONE);
@@ -80,6 +80,7 @@ public class SedeActivity extends AppCompatActivity {
                     Intent i = new Intent(v.getContext(), InsertarSedeActivity.class);
                     i.putExtra(Constants.EXTRA_USER, u);
                     startActivity(i);
+                    finish();
                 }
             });
 
@@ -94,10 +95,8 @@ public class SedeActivity extends AppCompatActivity {
         }
 
 
-
-
-
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
