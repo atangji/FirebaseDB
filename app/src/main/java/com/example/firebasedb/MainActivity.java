@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarSedes() {
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("sede");
-        ValueEventListener postListener = new ValueEventListener() {
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("sede");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         usuario_id_sede= entry.getKey();
                         if(usuario_id_sede.equals(u.getId())){
                             sedes_obj_array.add(sede);
-                            sedes_array.add(sede.getDireccion());
+
 
                         }
                     }
@@ -155,8 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("ERROR", "loadPost:onCancelled", databaseError.toException());
                 // ...
             }
-        };
-        mDatabase.addValueEventListener(postListener);
+        });
     }
 
     private void cargarTicketFirebase(){
@@ -194,7 +193,8 @@ public class MainActivity extends AppCompatActivity {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
-
+                                            Tipo tipo = dataSnapshot.getValue(Tipo.class);
+                                            ticket.setTipoobj(tipo);
 
                                             FirebaseDatabase.getInstance().getReference("resolucion").addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -212,9 +212,6 @@ public class MainActivity extends AppCompatActivity {
                                                         }
                                                     }
 
-
-                                                        Tipo tipo = dataSnapshot.getValue(Tipo.class);
-                                                        ticket.setTipoobj(tipo);
 
 
                                                         tickets_array.add(ticket);
@@ -321,7 +318,35 @@ public class MainActivity extends AppCompatActivity {
     public void clickCrearTicket(View v){
 
 
-        cargarSedes();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("sede");
+
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot sedes : dataSnapshot.getChildren()) {
+                    final Sede sede = sedes.getValue(Sede.class);
+                    String usuario_id_sede="";
+                    for(Map.Entry<String,Boolean> entry: sede.getUsuarios().entrySet()) {
+                        usuario_id_sede= entry.getKey();
+                        if(usuario_id_sede.equals(u.getId())){
+                            sedes_obj_array.add(sede);
+
+                        }
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("ERROR", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        });
         int sedes = sedes_obj_array.size();
 
         if (sedes>0) {

@@ -12,9 +12,10 @@
         android:id="@+id/tViewTipoticket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="36dp"
         android:text="Tipo ticket:"
         android:textColor="#E60000"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content"
         android:textColor="#4A4D4E"
         android:layout_marginTop="8dp"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tViewTipoticket" />
@@ -36,6 +38,7 @@
         android:layout_marginTop="8dp"
         android:text="Sede:"
         android:textColor="#E60000"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTipoTicket" />
@@ -46,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="#4A4D4E"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
@@ -57,6 +61,7 @@
         android:layout_marginTop="8dp"
         android:text="Creado:"
         android:textColor="#E60000"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSedeTicket" />
@@ -67,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="#4A4D4E"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -78,6 +84,7 @@
         android:layout_marginTop="8dp"
         android:text="Detalle:"
         android:textColor="#E60000"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFechaCreacion" />
@@ -88,6 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="#4A4D4E"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
@@ -100,6 +108,7 @@
         android:text="Modificado:"
         android:textAlignment="viewStart"
         android:textColor="#E60000"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDetalleTicket" />
@@ -110,6 +119,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textColor="#4A4D4E"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
@@ -122,6 +132,7 @@
         android:text="Solución:"
         android:textAlignment="viewStart"
         android:textColor="#E60000"
+        android:textSize="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFechaSolTicket" />
 
@@ -132,6 +143,7 @@
         android:layout_below="@+id/textView13"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:textSize="20dp"
         app:layout_constraintTop_toBottomOf="@+id/textView13"
         tools:layout_editor_absoluteX="8dp" />
 
@@ -166,6 +178,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Resuelto"
+        android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etTextSolucion" />
 
