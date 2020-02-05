@@ -1,6 +1,7 @@
 package com.example.firebasedb.Adapters;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,8 +84,20 @@ public class SedeAdapter  extends RecyclerView.Adapter<SedeAdapter.ViewHolderSed
             sede = s;
             tvDireccion.setText(s.getDireccion());
             tvPoblacion.setText(s.getPoblobj().getPoblacion());
-            tvCP.setText(s.getPoblobj().getCp());
-        }
 
+            //Verificamos el CP para insertar un 0 delante en caso de tener 4 dígitos:
+            String cp = s.getPoblobj().getCp();
+            if (cp.length() <= 5 && !TextUtils.isEmpty(cp) && TextUtils.isDigitsOnly(cp)) {
+
+                //En el caso que el codigo postal tenga 4 dígitos añadimos un 0
+                if (cp.length()<5) {
+
+                    cp = "0"+cp;
+                }
+
+                tvCP.setText(cp);
+            }
+
+        }
     }
 }

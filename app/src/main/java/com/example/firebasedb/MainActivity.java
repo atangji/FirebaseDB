@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Sede> sedes_obj_array = new ArrayList<>();
     ArrayList<String> sedes_array = new ArrayList<>();
-
+    int sedes;
     final static String EXTRA_USER = "USER";
 
     private DatabaseReference mDatabase;
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
             rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
             cargarTicketFirebase();
+            cargarSedes();
 
         }else{
             Toast.makeText(getApplicationContext(), "error al cargar usuarios", LENGTH_LONG).show();
@@ -129,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
     private void cargarSedes() {
 
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("sede");
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -155,7 +157,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("ERROR", "loadPost:onCancelled", databaseError.toException());
                 // ...
             }
-        });
+        };
+
+        mDatabase.orderByChild("fecha_creacion").addValueEventListener(postListener);
     }
 
     private void cargarTicketFirebase(){
@@ -209,8 +213,14 @@ public class MainActivity extends AppCompatActivity {
                                                             if (ticketId.equals(ticket.getId())) {
                                                                 ticket.setSolucionado(resolucion.getResuelto());
                                                             }
+
+
+
                                                         }
                                                     }
+
+                                                    //Añado datos usuario al ticket:
+
 
 
 
@@ -317,37 +327,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickCrearTicket(View v){
 
-
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("sede");
-
-
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot sedes : dataSnapshot.getChildren()) {
-                    final Sede sede = sedes.getValue(Sede.class);
-                    String usuario_id_sede="";
-                    for(Map.Entry<String,Boolean> entry: sede.getUsuarios().entrySet()) {
-                        usuario_id_sede= entry.getKey();
-                        if(usuario_id_sede.equals(u.getId())){
-                            sedes_obj_array.add(sede);
-
-                        }
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("ERROR", "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        });
-        int sedes = sedes_obj_array.size();
+        sedes = sedes_obj_array.size();
 
         if (sedes>0) {
 

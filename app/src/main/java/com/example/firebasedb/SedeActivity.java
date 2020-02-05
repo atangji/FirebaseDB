@@ -160,7 +160,6 @@ public class SedeActivity extends AppCompatActivity {
                                     rvSede.setVisibility(View.VISIBLE);
                                     emtpyTv.setVisibility(View.GONE);
                                 }
-                                //Al objeto sede le obtengo el HasMap de poblacion
 
                             }
 

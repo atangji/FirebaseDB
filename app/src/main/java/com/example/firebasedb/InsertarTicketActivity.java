@@ -53,6 +53,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
     ArrayList<String> sedes_array = new ArrayList<>();
 
     Usuario u;
+    String ticket_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,7 +108,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
                     HashMap<String, Boolean> ticket_usuario = new HashMap<>();
                     ticket_usuario.put(u.getId(),true);
                     //ID ticket
-                    String ticket_id = UUID.randomUUID().toString();
+                    ticket_id = UUID.randomUUID().toString();
                     ticket_id = ticket_id.substring(0,6);
 
                     //fecha
@@ -128,7 +129,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             if (databaseError == null) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Se insertó el ticket con éxito", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "Se insertó el ticket con id:"+ticket_id +" con éxito", Toast.LENGTH_LONG).show();
                                 Intent i=new Intent(getApplicationContext(), MainActivity.class);
                                 i.putExtra(Constants.EXTRA_USER, u);
                                 startActivity(i);

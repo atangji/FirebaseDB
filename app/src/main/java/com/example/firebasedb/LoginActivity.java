@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFocusChange(View view, boolean isFocused) {
                 if(!isFocused){
-                    textPasswordLayout.setPasswordVisibilityToggleEnabled(false);
+                    textPasswordLayout.setPasswordVisibilityToggleEnabled(true);
                 }else{
 
                     eTextPassword.addTextChangedListener(new TextWatcher() {

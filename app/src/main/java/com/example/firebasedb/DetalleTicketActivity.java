@@ -49,9 +49,14 @@ public class DetalleTicketActivity extends AppCompatActivity {
     TextView tvDetalleTicket;
     TextView tvFechaSolTicket;
     TextView tvSolucionTicket;
+    TextView tvMailTicket;
+    TextView tvTelefonoTicket;
+    TextView tvUsuarioTicket;
+    TextView tvDatosContacto;
     EditText etSolucion;
     Button btnInsertar;
     CheckBox ckboxResuelto;
+    String usuarioTicket;
     private Usuario u;
     private DatabaseReference mDatabase;
     private String fecha = "1900-01-01";
@@ -76,6 +81,13 @@ public class DetalleTicketActivity extends AppCompatActivity {
             tvSedeTicket.setText((t.getSedeobj().getDireccion()));
             tvFechaCreacion.setText(t.getFecha_creacion());
             tvDetalleTicket.setText(t.getComentario());
+
+            //Rellenamos datos contacto usuario
+            tvMailTicket.setText("E-mail: " + u.getEmail());
+            tvTelefonoTicket.setText("Teléfono :"+u.getTelefono());
+            tvUsuarioTicket.setText("Nombre " + u.getNombre());
+
+            int usuarioTicketTelf= u.getTelefono();
 
             setTitle("ID Ticket: "+t.getId());
             cargarResolucion();
@@ -108,6 +120,12 @@ public class DetalleTicketActivity extends AppCompatActivity {
         etSolucion = (EditText) findViewById(R.id.etTextSolucion);
         btnInsertar = (Button) findViewById(R.id.btnInsertarSol);
         ckboxResuelto = (CheckBox) findViewById(R.id.ckboxResuelto);
+
+        tvMailTicket = (TextView)findViewById(R.id.tvMailTicket);
+        tvTelefonoTicket = (TextView)findViewById(R.id.tvTelefonoTicket);
+        tvUsuarioTicket = (TextView) findViewById(R.id.tvNombreUsuarioTicket);
+        tvDatosContacto = (TextView) findViewById(R.id.tvDatosContacto);
+
 
         progressDialog = new ProgressDialog(this);
 
@@ -213,6 +231,7 @@ public class DetalleTicketActivity extends AppCompatActivity {
                 etSolucion.setVisibility(View.GONE);
                 btnInsertar.setVisibility(View.GONE);
                 ckboxResuelto.setEnabled(false);
+
             }else{
 
                 etSolucion.setVisibility(View.VISIBLE);
@@ -222,9 +241,20 @@ public class DetalleTicketActivity extends AppCompatActivity {
             }
 
 
+            tvUsuarioTicket.setVisibility(View.VISIBLE);
+            tvDatosContacto.setVisibility(View.VISIBLE);
+            tvTelefonoTicket.setVisibility(View.VISIBLE);
+            tvMailTicket.setVisibility(View.VISIBLE);
+
         }else{
 
+            //En caso de no tratarse de un usuario administrador ocultamos los datos de contacto
+
             etSolucion.setVisibility(View.GONE);
+            tvUsuarioTicket.setVisibility(View.VISIBLE);
+            tvDatosContacto.setVisibility(View.VISIBLE);
+            tvTelefonoTicket.setVisibility(View.VISIBLE);
+            tvMailTicket.setVisibility(View.VISIBLE);
             btnInsertar.setVisibility(View.GONE);
             ckboxResuelto.setEnabled(false);
 
