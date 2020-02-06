@@ -73,17 +73,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Método para inicializar la vista
         initViews();
 
         //Si tocamos fuera del menú se cierra
         fabMenu.setClosedOnTouchOutside(true);
         fabMenu.setForegroundGravity(Gravity.RIGHT);
 
-
         Bundle bundle = getIntent().getExtras();
 
         if(bundle!=null){
             u = bundle.getParcelable(Constants.EXTRA_USER);
+
+            //Controlamos el usuario que se loga. En caso de ser un usuario admin ocultamos el botón crear ticket
             if(Constants.ID_ADMIN.equals(u.getId())){
 
                 fabMenuCrearTicket = (FloatingActionButton) findViewById(R.id.fabMenuCrearTicket);
@@ -93,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
             rvTicket.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
+            //Método para cargar tickets del usuario logado
             cargarTicketFirebase();
+            //Méotodo para cargar sedes de los tickets
             cargarSedes();
 
         }else{
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarSedes() {
 
+        //Accedemos al nodo sede de firebase y leemos las sedes del usuario logado
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("sede");
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -142,20 +147,16 @@ public class MainActivity extends AppCompatActivity {
                         usuario_id_sede= entry.getKey();
                         if(usuario_id_sede.equals(u.getId())){
                             sedes_obj_array.add(sede);
-
-
                         }
                     }
                 }
-
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 // Getting Post failed, log a message
                 Log.w("ERROR", "loadPost:onCancelled", databaseError.toException());
-                // ...
+
             }
         };
 
@@ -164,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarTicketFirebase(){
         final Ticket ticket;
+
+        //Accedemos al nodo ticket de firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("ticket");
 
         ValueEventListener postListener = new ValueEventListener() {
@@ -173,56 +176,49 @@ public class MainActivity extends AppCompatActivity {
                 for(DataSnapshot tickets: dataSnapshot.getChildren()){
                    final Ticket ticket = tickets.getValue(Ticket.class);
                     for(Map.Entry<String,Boolean> entryUsuario: ticket.getUsuarios().entrySet()){
+
                         if(entryUsuario.getKey().equals(u.getId()) || Constants.ID_ADMIN.equals(u.getId())){
 
+                            //Al objeto ticket le obtengo el HasMap de sede
+                            for(Map.Entry<String,Boolean> entry: ticket.getSede().entrySet()){
 
-                    //Al objeto sede le obtengo el HasMap de poblacion
-                    for(Map.Entry<String,Boolean> entry: ticket.getSede().entrySet()){
+                                String id_sede = entry.getKey();
 
-                        String id_sede = entry.getKey();
+                                FirebaseDatabase.getInstance().getReference("sede").child(id_sede).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Sede sede  = dataSnapshot.getValue(Sede.class);
+                                        ticket.setSedeobj(sede);
 
-                        FirebaseDatabase.getInstance().getReference("sede").child(id_sede).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Sede sede  = dataSnapshot.getValue(Sede.class);
-                                ticket.setSedeobj(sede);
+                                        //Al objeto ticket le obtengo el HasMap de tipo
+                                        for(Map.Entry<String,Boolean> entry: ticket.getTipo().entrySet()){
 
-                                //Al objeto sede le obtengo el HasMap de poblacion
-                                for(Map.Entry<String,Boolean> entry: ticket.getTipo().entrySet()){
+                                            String id_tipo = entry.getKey();
 
-                                    String id_tipo = entry.getKey();
-
-                                    FirebaseDatabase.getInstance().getReference("tipo").child(id_tipo).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-
-                                            Tipo tipo = dataSnapshot.getValue(Tipo.class);
-                                            ticket.setTipoobj(tipo);
-
-                                            FirebaseDatabase.getInstance().getReference("resolucion").addListenerForSingleValueEvent(new ValueEventListener() {
+                                            FirebaseDatabase.getInstance().getReference("tipo").child(id_tipo).addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
                                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                                    for(DataSnapshot resoluciones: dataSnapshot.getChildren()) {
-                                                        Resolucion resolucion  = resoluciones.getValue(Resolucion.class);
 
-                                                        for (Map.Entry<String, Boolean> entry : resolucion.getTicket().entrySet()) {
-                                                            String ticketId = entry.getKey();
+                                                    Tipo tipo = dataSnapshot.getValue(Tipo.class);
+                                                    ticket.setTipoobj(tipo);
 
-                                                            if (ticketId.equals(ticket.getId())) {
-                                                                ticket.setSolucionado(resolucion.getResuelto());
+                                                    FirebaseDatabase.getInstance().getReference("resolucion").addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                                            for(DataSnapshot resoluciones: dataSnapshot.getChildren()) {
+                                                                Resolucion resolucion  = resoluciones.getValue(Resolucion.class);
+
+                                                                //Al objeto ticket le obtengo el HasMap de resuelto
+                                                                for (Map.Entry<String, Boolean> entry : resolucion.getTicket().entrySet()) {
+                                                                    String ticketId = entry.getKey();
+
+                                                                    if (ticketId.equals(ticket.getId())) {
+                                                                        ticket.setSolucionado(resolucion.getResuelto());
+                                                                    }
+                                                                }
                                                             }
-
-
-
-                                                        }
-                                                    }
-
-                                                    //Añado datos usuario al ticket:
-
-
-
 
                                                         tickets_array.add(ticket);
                                                         Collections.reverse(tickets_array);
@@ -249,7 +245,13 @@ public class MainActivity extends AppCompatActivity {
                                                             }
                                                         });
 
+                                                    }
 
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                        }
+                                                    });
 
                                                 }
 
@@ -258,51 +260,15 @@ public class MainActivity extends AppCompatActivity {
 
                                                 }
                                             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                         }
+                                    }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                        }
-                                    });
-                                }
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.i("ERROR SEDE", databaseError.getMessage());
+                                    }
+                                });
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.i("ERROR SEDE", databaseError.getMessage());
-                            }
-                        });
-                    }
-
 
                         }
                     }
@@ -320,17 +286,19 @@ public class MainActivity extends AppCompatActivity {
                 // ...
             }
         };
+        //Ordenamos los tickets por fecha de creación
         mDatabase.orderByChild("fecha_creacion").addValueEventListener(postListener);
     }
 
 
-
     public void clickCrearTicket(View v){
 
+        //Método para comprobar si el usuario tiene sedes creadas, requisito previo para crear un ticket
         sedes = sedes_obj_array.size();
 
         if (sedes>0) {
 
+            //en caso de tener sedes abrimos la pantalla sedes
             Intent i = new Intent(v.getContext(), InsertarTicketActivity.class);
 
             i.putExtra(Constants.EXTRA_USER, u);
@@ -338,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
 
         }else{
 
+            //en caso contrario avisamos que debe crear una sede previamente
             Toast.makeText(getApplicationContext(), "El usuario no tiene sedes, tienes que crear una sede para crear un ticket", LENGTH_LONG).show();
         }
     }

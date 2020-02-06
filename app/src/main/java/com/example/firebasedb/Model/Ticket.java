@@ -16,11 +16,13 @@ public class Ticket implements Parcelable {
 
 
 
+
     Sede sedeobj;
     Tipo tipoobj;
     Usuario usuobj;
 
     Boolean solucionado = false;
+
 
     public Ticket (){
 
@@ -83,7 +85,6 @@ public class Ticket implements Parcelable {
     public String getFecha_creacion() {
         return fecha_creacion;
     }
-
     public void setFecha_creacion(String fecha_creacion) {
         this.fecha_creacion = fecha_creacion;
     }

@@ -3,6 +3,7 @@
     package="com.example.firebasedb">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,13 +14,13 @@
         android:theme="@style/AppTheme">
         <activity android:name=".PerfilUsuario"
 
-            android:label="Perfil usuario">
+            android:label="@string/title_PerfilUsuarioActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.firebasedb.MainActivity" />
         </activity>
         <activity android:name=".RegistroActivity"
-            android:label="Registro usuario" >
+            android:label="@string/title_RegistroUsuarioActivity" >
 
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
@@ -40,7 +41,7 @@
 
         <activity
             android:name=".InsertarTicketActivity"
-            android:label="Nuevo ticket"
+            android:label="@string/title_InsertarTicketActivity"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar"
             >

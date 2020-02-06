@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthCredential;
@@ -40,9 +46,9 @@ public class PerfilUsuario extends AppCompatActivity {
 
 
     Usuario u;
-    TextView tvMail,tvErrorPerfil, tvErrorPass;
     EditText etNombre, etTelefono;
     TextInputLayout etPass,etPassRep;
+    TextInputEditText eTextPass, eTextPassRep;
     Button btnEditarUsuario, btnCambiarPassword;
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
@@ -61,7 +67,6 @@ public class PerfilUsuario extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
 
         //Rellenamos los edit text con la información del usuario
-
         if(bundle!=null){
             u = bundle.getParcelable(Constants.EXTRA_USER);
             etNombre.setText(u.getNombre());
@@ -72,9 +77,6 @@ public class PerfilUsuario extends AppCompatActivity {
 
 
     }
-
-
-
 
     private void initViews(){
 
@@ -88,57 +90,48 @@ public class PerfilUsuario extends AppCompatActivity {
         etPass.setHintEnabled(false);
         etPassRep = (TextInputLayout) findViewById(R.id.eTPerfilRepitePassword);
         etPassRep.setHintEnabled(false);
+        eTextPass =(TextInputEditText) findViewById(R.id.textInputPass);
+        eTextPassRep =(TextInputEditText) findViewById(R.id.textInputPassRep);
 
         btnCambiarPassword = (Button) findViewById(R.id.btnPerfilCambiaPassword);
         btnEditarUsuario = (Button) findViewById(R.id.btnPerfilEditarUsuario);
 
-        tvErrorPerfil = (TextView) findViewById((R.id.tVErroresPerfil));
-        //ocultamos
-        tvErrorPerfil.setVisibility(View.GONE);
-        tvErrorPass = (TextView) findViewById(R.id.tVErroresPass);
-        //ocultamos
-        tvErrorPass.setVisibility(View.GONE);
         progressDialog = new ProgressDialog(this);
 
         btnEditarUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                compruebaConexion();
                 //campos telefono y nombre
                 String strNombre = etNombre.getText().toString();
                 String strTelefono = etTelefono.getText().toString();
                 Boolean errorPerfil =false;
                 char primerCaracter = strTelefono.charAt(0);
 
-
-
                 //comprueba que los campos no están vacíos
                 if (strNombre.isEmpty() ||strTelefono.isEmpty()){
 
                     //aparece mensaje conforme no pueden haber campos vacíos
-                    tvErrorPerfil.setVisibility(View.VISIBLE);
-                    tvErrorPerfil.setText("Los campos no pueden estar vacíos");
+                    Toast.makeText(getApplicationContext(), "Los campos no pueden estar vacíos", Toast.LENGTH_LONG).show();
                     errorPerfil=true;
 
                 }else if (strTelefono.length()!=9 ) {
 
                     //aparece un mensaje conforme el teléfono no es correcto
-                    tvErrorPerfil.setVisibility(View.VISIBLE);
-                    tvErrorPerfil.setText("El teléfono no puede ser inferior a 9 dígitos");
+                    Toast.makeText(getApplicationContext(), "El teléfono no puede ser inferior a 9 dígitos", Toast.LENGTH_LONG).show();
                     errorPerfil=true;
 
                 }else if (strTelefono.charAt(0)!='9'&& strTelefono.charAt(0)!='7' && strTelefono.charAt(0)!='6'){
 
                     //aparece un mensaje conforme el teléfono no es correcto
-                    tvErrorPerfil.setVisibility(View.VISIBLE);
-                    tvErrorPerfil.setText("El teléfono debe empezar por 9, 7 o 6");
+                    Toast.makeText(getApplicationContext(), "El teléfono debe empezar por 9, 7 o 6", Toast.LENGTH_LONG).show();
                     errorPerfil=true;
 
                 }else if (strNombre.equalsIgnoreCase(u.getNombre()) || strNombre.equalsIgnoreCase(String.valueOf(u.getTelefono()))){
 
                     //aparece un mensaje conforme los valore no han cambiado
-                    tvErrorPerfil.setVisibility(View.VISIBLE);
-                    tvErrorPerfil.setText("No has modificado datos");
+                    Toast.makeText(getApplicationContext(), "No has modificado ningún dato", Toast.LENGTH_LONG).show();
                     errorPerfil=true;
                 }
 
@@ -146,12 +139,6 @@ public class PerfilUsuario extends AppCompatActivity {
                     //Guarda los cambios
                     u.setNombre(strNombre);
                     u.setTelefono(Integer.parseInt(strTelefono));
-
-
-                 /*   mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("usuarios").child(u.getId()).setValue(u);
-                    callback insertar
-                    */
 
                     progressDialog.setMessage("Modificando datos del usuario..");
                     progressDialog.setCanceledOnTouchOutside(false);
@@ -169,16 +156,10 @@ public class PerfilUsuario extends AppCompatActivity {
                                 progressDialog.dismiss();
 
                                 Toast.makeText(getApplicationContext(), "Se han modificado los datos del usuario", Toast.LENGTH_LONG).show();
-                                /*Intent i = new Intent(getApplicationContext(), PerfilUsuario.class);
-                                i.putExtra(Constants.EXTRA_USER, u);
-                                startActivity(i);
-                                */
-
 
                             } else {
                                 progressDialog.dismiss();
                                 Toast.makeText(getApplicationContext(), "Ups¡ No se han podido guardar los datos", Toast.LENGTH_LONG).show();
-
                             }
 
                         }
@@ -187,10 +168,6 @@ public class PerfilUsuario extends AppCompatActivity {
                         //CALLBACK NO ACTUALIZA DATOS DEL OBJETO USUARIO ???
                     });
 
-
-
-                    tvErrorPerfil.setVisibility(View.VISIBLE);
-                    tvErrorPerfil.setText("Datos modificados");
                 }
 
 
@@ -203,6 +180,12 @@ public class PerfilUsuario extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                compruebaConexion();
+
+                etPass.setPasswordVisibilityToggleEnabled(true);
+                etPassRep.setPasswordVisibilityToggleEnabled(true);
+
+
                 final String StrPass = etPass.getEditText().getText().toString();
                 String StrPassRep = etPassRep.getEditText().getText().toString();
                 Boolean errorPass =false;
@@ -211,22 +194,19 @@ public class PerfilUsuario extends AppCompatActivity {
                 //Comprueba que los campos password no están vacíos
                 if (StrPass.isEmpty() ||StrPassRep.isEmpty()){
 
-                    tvErrorPass.setVisibility(View.VISIBLE);
-                    tvErrorPass.setText("Los campos passwords no pueden estar vacíos");
+                    Toast.makeText(getApplicationContext(), "Los campos passwords no pueden estar vacíos", Toast.LENGTH_LONG).show();
                     errorPass=true;
 
                 }else if (!StrPass.equals(StrPassRep)) {
                     //Comprueba que los passwords coinciden
 
-                    tvErrorPass.setVisibility(View.VISIBLE);
-                    tvErrorPass.setText("Los passwords no coinciden");
+                    Toast.makeText(getApplicationContext(), "Los passwords no coinciden", Toast.LENGTH_LONG).show();
                     errorPass=true;
 
                 }else if(StrPass.equals(u.getPassword())) {
                     //Comprueba que el password no es igual al anterior
 
-                    tvErrorPass.setVisibility(View.VISIBLE);
-                    tvErrorPass.setText("El nuevo password debe ser distinto al anterior");
+                    Toast.makeText(getApplicationContext(), "El nuevo password debe ser distinto al anterior", Toast.LENGTH_LONG).show();
                     errorPass=true;
 
                 }
@@ -247,6 +227,9 @@ public class PerfilUsuario extends AppCompatActivity {
 
                                             //Guarda los cambios en el objeto del nuevo pass
                                             u.setPassword(StrPass);
+
+
+                                            //Accedemos al nodo usuarios de firebase
                                             mDatabase.child("usuarios").child(u.getId()).setValue(u,new DatabaseReference.CompletionListener() {
 
 
@@ -257,28 +240,16 @@ public class PerfilUsuario extends AppCompatActivity {
                                                         progressDialog.dismiss();
 
                                                         Toast.makeText(getApplicationContext(), "Nuevo password guardado", Toast.LENGTH_LONG).show();
-                                                        /*Intent i = new Intent(getApplicationContext(), PerfilUsuario.class);
-                                                        i.putExtra(Constants.EXTRA_USER, u);
-                                                        startActivity(i);
-                                                        */
-
 
                                                     } else {
                                                         progressDialog.dismiss();
 
-                                                        //HACE FALTA METER ALGÚN CONTROL? PORQUE HABRÍA GUARDADO EL PASSWORD EN AUTENTICATION PERO NO EN BBDD
-
-                                                        //Toast.makeText(getApplicationContext(), "Ups¡ No se han podido guardar los datos", Toast.LENGTH_LONG).show();
-
                                                     }
-
                                                 }
 
 
                                                 //CALLBACK NO ACTUALIZA DATOS DEL OBJETO USUARIO ???
                                             });
-
-
 
                                         }else{
 
@@ -294,8 +265,85 @@ public class PerfilUsuario extends AppCompatActivity {
             }
         });
 
-    }
+        eTextPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etPass.setPasswordVisibilityToggleEnabled(true);
+            }
+        });
 
+        eTextPass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(!isFocused){
+                    etPass.setPasswordVisibilityToggleEnabled(false);
+                }else{
+
+                    eTextPass.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            if(eTextPass.getText().toString().length() > 0) {
+                                etPass.setPasswordVisibilityToggleEnabled(true);
+                            }
+                            else{
+                                etPass.setPasswordVisibilityToggleEnabled(false);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            etPass.setPasswordVisibilityToggleEnabled(true);
+                        }
+                    });
+
+                }
+            }
+        });
+
+
+        eTextPassRep.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean isFocused) {
+                if(!isFocused){
+                    etPassRep.setPasswordVisibilityToggleEnabled(false);
+                }else{
+
+                    eTextPassRep.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                            if(eTextPassRep.getText().toString().length() > 0) {
+                                etPassRep.setPasswordVisibilityToggleEnabled(true);
+                            }
+                            else{
+                                etPassRep.setPasswordVisibilityToggleEnabled(false);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable editable) {
+
+                            etPassRep.setPasswordVisibilityToggleEnabled(true);
+                        }
+                    });
+
+                }
+            }
+        });
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -312,8 +360,29 @@ public class PerfilUsuario extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void compruebaConexion(){
 
+        if(!isOnlineNet(this)){
 
+            Toast.makeText(PerfilUsuario.this, "No se ha podido conectar al servidor, revisa tu conexión a internet", Toast.LENGTH_LONG).show();
+        }
+    }
 
+    public Boolean isOnlineNet(Context context)
+    {
+        boolean isOnlineNet = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                isOnlineNet = true;
+            }
+        }
+        return  isOnlineNet;
+    }
 
 }

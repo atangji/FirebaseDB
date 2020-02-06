@@ -15,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Crear sede"
+            app:title="@string/titulo_insertarSede"
             app:titleTextColor="#E60000"
             app:popupTheme="@style/AppTheme.NoActionBar" />
 

@@ -1,7 +1,10 @@
 package com.example.firebasedb;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
@@ -54,6 +57,8 @@ public class InsertarSedeActivity extends AppCompatActivity {
     String id_poblacion_seleccionado;
     Usuario u;
     ArrayList<Poblacion> poblaciones_seleccionda=new ArrayList<Poblacion>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +77,8 @@ public class InsertarSedeActivity extends AppCompatActivity {
         }
     }
     private void initViews(){
+
+        //Méotodo para incializar la vista
         progressDialog = new ProgressDialog(this);
         eTextCPSede = (EditText) findViewById(R.id.etCP);
         etDireccion = (EditText) findViewById(R.id.eTextSedeDir);
@@ -89,7 +96,6 @@ public class InsertarSedeActivity extends AppCompatActivity {
         //vaciamos el edit text de codigo postal
         eTextCPSede.setText("");
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -97,16 +103,19 @@ public class InsertarSedeActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
-
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                compruebaConexion();
+
                 Poblacion poblacion_guardar = null;
 
+                //Comprobamos que los campos de texto que ha debe insertar el usuario no estén vacíos
                 if (eTextCPSede.getText() == null || TextUtils.isEmpty(eTextCPSede.getText()) || eTextPoblacionSede.getSelectedItem() == null) {
                     Toast.makeText(getApplicationContext(), "Debes completar todos los campos", Toast.LENGTH_LONG).show();
+
+                   //Comprobamos además que haya seleccionado alguna población y provincia
                 } else if (eTextPoblacionSede.getSelectedItem() == null || eTextProvinciaSede.getText().toString() == "") {
                     Toast.makeText(getApplicationContext(), "Pulsa buscar el código postal para indicar población y provincia", Toast.LENGTH_LONG).show();
                 } else {
@@ -131,10 +140,14 @@ public class InsertarSedeActivity extends AppCompatActivity {
                             HashMap<String, Boolean> usuarios_sede = new HashMap<>();
                             usuarios_sede.put(idUser, true);
                             Sede sede_nueva = new Sede(sede_id, dir, poblacion_sede, usuarios_sede);
+
+                            //Insertamos la nueva sede en firebase
                             mDatabase = FirebaseDatabase.getInstance().getReference();
                             progressDialog.setMessage("Insertando sede..");
                             progressDialog.setCanceledOnTouchOutside(false);
                             progressDialog.show();
+
+                            //Accedemos al nodo sede e insertamos la sede nueva con los datos que ha insertado el usuario
                             mDatabase.child("sede").child(sede_id).setValue(sede_nueva, new DatabaseReference.CompletionListener() {
                                 @Override
                                 public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -190,6 +203,7 @@ public class InsertarSedeActivity extends AppCompatActivity {
         tViewProvinciaSede.setVisibility(View.VISIBLE);
         tViewPoblacionSede.setVisibility(View.VISIBLE);
 
+        //Accedemos al nodo población de firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("poblacion");
         Query queryRef = mDatabase.orderByChild("cp").equalTo(cp_seleccionado);
         ValueEventListener postListener = new ValueEventListener() {
@@ -224,7 +238,6 @@ public class InsertarSedeActivity extends AppCompatActivity {
         queryRef.addValueEventListener(postListener);
     }
 
-
     public void clickVerPoblaciones(View view) {
 
         String cp = eTextCPSede.getText().toString();
@@ -243,5 +256,30 @@ public class InsertarSedeActivity extends AppCompatActivity {
         }else{
             Toast.makeText(getApplicationContext(), "Revisa el CP, debe de estar relleno por un formato válido", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void compruebaConexion(){
+        //Método para comprobar la conexión
+        if(!isOnlineNet(this)){
+
+            Toast.makeText(InsertarSedeActivity.this, "No se ha podido conectar al servidor, revisa tu conexión a internet", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public Boolean isOnlineNet(Context context)
+    {
+        boolean isOnlineNet = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                isOnlineNet = true;
+            }
+        }
+        return  isOnlineNet;
     }
 }

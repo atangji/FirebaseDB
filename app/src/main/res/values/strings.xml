@@ -18,7 +18,6 @@
         <item>Incidencia</item>
     </string-array>
     <string name="numTicket">Num ticket: 123467322424</string>
-
     <string name="sede_direccion">Nombre calle y número</string>
     <string-array name="codigo_postal">
         <item>08760</item>
@@ -32,7 +31,61 @@
         <item>Martorell</item>
         <item>Madrid</item>
     </string-array>
+
     <string name="title_activity_insertar_ticket">InsertarTicketActivity</string>
     <string name="title_activity_insertar_sede">InsertarSedeActivity</string>
+    <string name="title_InsertarTicketActivity">Nuevo ticket</string>
+
+    <string name="title_PerfilUsuarioActivity">Perfil usuario</string>
+    <string name="title_RegistroUsuarioActivity">Nuevo usuario</string>
+
+    <string name="titulo_insertarSede">Nueva sede</string>
+    <string name="content_insertar_sede_labelDir">Dirección: </string>
+    <string name="content_insertar_sede_etextHintDir">Calle y número: </string>
+    <string name="content_insertar_sede_labelCP">Código postal: </string>
+    <string name="content_insertar_sede_labelPob">Población: </string>
+    <string name="content_insertar_sede_labelProv">Provincia: </string>
+    <string name="content_insertar_sede_etextHintCP">Código postal</string>
+    <string name="content_insertar_sede_btnBuscar">Buscar</string>
+
+    <string name="titulo_insertarTicket">Nuevo ticket</string>
+    <string name="content_insertar_ticket_labelTipoTicket">Tipo ticket:</string>
+    <string name="content_insertar_ticket_labelSede">Sede:</string>
+    <string name="content_insertar_ticket_labelDetalle">Detalle:</string>
+    <string name="content_insertar_ticket_hintDetalle">Escribe el detalle del ticket</string>
+
+    <string name="content_detalle_ticket_labelTipoTicket">Tipo ticket:</string>
+    <string name="content_detalle_ticket_labelSede">Sede:</string>
+    <string name="content_detalle_ticket_labelCreado">Creado:</string>
+    <string name="content_detalle_ticket_labelDetalle">Detalle:</string>
+    <string name="content_detalle_ticket_labelMod">Modificado:</string>
+    <string name="content_detalle_ticket_labelContactoUser">Datos contacto usuario:</string>
+    <string name="content_detalle_ticket_labelSolucion">Solución:</string>
+    <string name="content_detalle_ticket_hintSolucion">Introduce tu solución</string>
+    <string name="content_detalle_ticket_ckBoxResuelto">Resuelto</string>
+    <string name="content_detalle_ticket_btonGuardar">Guardar</string>
+
+    <string name="activityLoginHintMail">Inserta un correo electrónico</string>
+    <string name="activityLoginHintPass">Escribe una contraseña</string>
+    <string name="activityLogintViewResetPass">¿Has olvidado tu contraseña?</string>
+    <string name="activityLoginBtn">LOGUIN</string>
+    <string name="activityLogintViewRegistro">¿Eres nuevo? Registrate</string>
+
+    <string name="activityPerfilNombre">Nombre:</string>
+    <string name="activityPerfilHintNombre">Nombre</string>
+    <string name="activityPerfilTelefono">Teléfono:</string>
+    <string name="activityPerfilHintTelefono">Telefono</string>
+    <string name="activityPerfiltBtnGuardarPerfil">GUARDAR INFORMACIÓN USUARIO</string>
+    <string name="activityPerfilPassword">Cambiar Password:</string>
+    <string name="activityPerfilHintPass">Escribe una contraseña</string>
+    <string name="activityPerfilHintPass2">Repite contraseña</string>
+    <string name="activityPerfilBtnPass">CAMBIAR CONTRASEÑA</string>
+
+    <string name="activityRegistroNombre">Nombre</string>
+    <string name="activityRegistroMail">Correo electrónico</string>
+    <string name="activityRegistroTelefono">Telefono</string>
+    <string name="activityRegistroPass">Contraseña</string>
+    <string name="activityRegistroPass2">Repite contraseña</string>
+    <string name="activityRegistroBtn">CREAR CUENTA</string>
 
 </resources>

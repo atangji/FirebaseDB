@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:fillViewport="true"
     android:padding="32dp"
     tools:context=".PerfilUsuario">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
     <TextView
@@ -14,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Nombre:"
+        android:text="@string/activityPerfilNombre"
         android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Nombre"
+        android:hint="@string/activityPerfilHintNombre"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.75"
@@ -41,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Teléfono:"
+        android:text="@string/activityPerfilTelefono"
         android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +56,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Telefono"
+        android:hint="@string/activityPerfilHintTelefono"
         android:maxLength="9"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +68,7 @@
         android:id="@+id/btnPerfilEditarUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar información usuario"
+        android:text="@string/activityPerfiltBtnGuardarPerfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etPerfilTelefono" />
@@ -73,12 +77,12 @@
         android:id="@+id/tvPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Password:"
+        android:layout_marginTop="46dp"
+        android:text="@string/activityPerfilPassword"
         android:textColor="#E60000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tVErroresPerfil" />
+        app:layout_constraintTop_toBottomOf="@+id/btnPerfilEditarUsuario" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -87,7 +91,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:gravity="center_horizontal"
-        app:endIconMode="password_toggle"
+        app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPassword"
@@ -96,7 +100,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Escribe una contraseña"
+            android:hint="@string/activityPerfilHintPass"
+            android:id="@+id/textInputPass"
             android:gravity="left"
             android:inputType="textPassword" />
 
@@ -110,7 +115,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:gravity="center_horizontal"
-        app:endIconMode="password_toggle"
+        app:passwordToggleEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eTPerfilPassword"
@@ -119,7 +124,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Repite contraseña"
+            android:hint="@string/activityPerfilHintPass2"
+            android:id="@+id/textInputPassRep"
             android:gravity="left"
             android:inputType="textPassword" />
 
@@ -131,31 +137,14 @@
         android:id="@+id/btnPerfilCambiaPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cambiar contraseña"
+        android:text="@string/activityPerfilBtnPass"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eTPerfilRepitePassword" />
 
-
-    <TextView
-        android:id="@+id/tVErroresPerfil"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPerfilEditarUsuario" />
-
-    <TextView
-        android:id="@+id/tVErroresPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPerfilCambiaPassword" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

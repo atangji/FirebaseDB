@@ -44,7 +44,7 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="center_horizontal"
-        android:hint="@string/enter_mail"
+        android:hint="@string/activityLoginHintMail"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:hint="Escribe una contraseña"
+            android:hint="@string/activityLoginHintPass"
             android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -83,7 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="¿Has olvidado tu contraseña?"
+        android:text="@string/activityLogintViewResetPass"
         android:layout_gravity="right"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textLayoutPassword" />
@@ -96,9 +96,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/login"
+        android:text="@string/activityLoginBtn"
         android:textColor="#FFFFFF"
-        android:backgroundTint="#E60000"
+        android:background="@drawable/buttonred_2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tVrecordarPassword" />
@@ -112,7 +112,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@color/common_google_signin_btn_text_dark_default"
-        android:text="¿Eres nuevo? Registrate"
+        android:text="@string/activityLogintViewRegistro"
         android:textAlignment="center"
         android:textColor="#E60000"
         android:textStyle="bold"

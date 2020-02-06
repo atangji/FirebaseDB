@@ -1,7 +1,10 @@
 package com.example.firebasedb;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.example.firebasedb.Adapters.SedeAdapter;
@@ -46,14 +49,13 @@ public class InsertarTicketActivity extends AppCompatActivity {
     EditText eTextDetalleTicket;
     private ProgressDialog progressDialog;
     private DatabaseReference mDatabase;
-
     ArrayList<Tipo> tipos_obj_array = new ArrayList<>();
     ArrayList<String> tipos_array = new ArrayList<>();
     ArrayList<Sede> sedes_obj_array = new ArrayList<>();
     ArrayList<String> sedes_array = new ArrayList<>();
-
     Usuario u;
     String ticket_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +76,8 @@ public class InsertarTicketActivity extends AppCompatActivity {
     }
 
     private void initViews(){
+
+        //Método para inicializar la vista
         eTextTipoTicket = (Spinner)findViewById(R.id.eTextTipoTicket);
         eTextSedeTicket = (Spinner)findViewById(R.id.eTextSedeTicket);
         eTextDetalleTicket = (EditText) findViewById(R.id.eTextDetalleTicket);
@@ -87,13 +91,18 @@ public class InsertarTicketActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                compruebaConexion();
+
                 //Comentario
                 String comentario = eTextDetalleTicket.getText().toString();
 
+                //Comprobamos que el comentario y la sede estén rellenos
                 if (TextUtils.isEmpty(comentario) || TextUtils.isEmpty(eTextSedeTicket.getSelectedItem().toString()) || eTextSedeTicket.getSelectedItem()==null) {
                     Toast.makeText(getApplicationContext(), "El comentario y la sede son obligatorios", Toast.LENGTH_LONG).show();
 
                 }else{
+
                     String sede = eTextSedeTicket.getSelectedItem().toString();
                     //Sede
                     String idSede = getSede(sede);
@@ -119,6 +128,8 @@ public class InsertarTicketActivity extends AppCompatActivity {
                     fecha = format1.format(cal.getTime());
 
                     Ticket ticket = new Ticket(comentario, fecha, ticket_id,ticket_sede, ticket_tipo, ticket_usuario);
+
+                    //Conectamos a firebase para insertar el ticket
                     mDatabase = FirebaseDatabase.getInstance().getReference();
 
                     progressDialog.setMessage("Insertando ticket..");
@@ -148,6 +159,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -162,6 +174,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private String getTipo(String nombre){
         for (Tipo tipo: tipos_obj_array){
             if(tipo.getTipo_nombre().equals(nombre)){
@@ -170,6 +183,7 @@ public class InsertarTicketActivity extends AppCompatActivity {
         }
         return null;
     }
+
     private String getSede(String nombre){
         for (Sede sede: sedes_obj_array){
             if(sede.getDireccion().equals(nombre)){
@@ -178,10 +192,11 @@ public class InsertarTicketActivity extends AppCompatActivity {
         }
         return null;
     }
+
     private void cargarTipos() {
 
 
-
+        //Accedemos al nodo tipo de firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("tipo");
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -208,9 +223,9 @@ public class InsertarTicketActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(postListener);
     }
 
-
     private void cargarSedes() {
 
+        //Accedemos al nodo sede de firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("sede");
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -243,4 +258,31 @@ public class InsertarTicketActivity extends AppCompatActivity {
         };
         mDatabase.addValueEventListener(postListener);
     }
+
+    public void compruebaConexion(){
+
+        //Comprobamos que haya conexión a internet
+        if(!isOnlineNet(this)){
+
+            Toast.makeText(InsertarTicketActivity.this, "No se ha podido conectar al servidor, revisa tu conexión a internet", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public Boolean isOnlineNet(Context context)
+    {
+        boolean isOnlineNet = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                isOnlineNet = true;
+            }
+        }
+        return  isOnlineNet;
+    }
+
 }

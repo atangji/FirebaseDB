@@ -1,6 +1,9 @@
 package com.example.firebasedb;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -42,9 +45,9 @@ public class SedeActivity extends AppCompatActivity {
     TextView emtpyTv;
     ArrayList<Sede> sedes_array = new ArrayList<Sede>();
     FloatingActionButton fabInsertarSede;
-
     private DatabaseReference mDatabase;
     Usuario u;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,7 +64,6 @@ public class SedeActivity extends AppCompatActivity {
             rvSede = (RecyclerView) findViewById(R.id.rvSede);
             emtpyTv = (TextView) findViewById(R.id.tvEmpty);
 
-            //emtpyTv.setVisibility(View.GONE);
             rvSede.setHasFixedSize(true);
             rvSede.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
@@ -88,7 +90,6 @@ public class SedeActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "error al cargar usuarios", LENGTH_LONG).show();
             try {
                 Thread.sleep(3000);
-                //PODEMOS HACER LO QUE QUERAMOS PASADOS 3 SEGUNDOS, POR EJEMPLO... VOLVER AL LOGIN O CERRAR TODA LA APP
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -124,9 +125,13 @@ public class SedeActivity extends AppCompatActivity {
     }
 
     private void cargarSedeFirebase() {
+
+        compruebaConexion();
+
         final Sede sede;
 
         fabInsertarSede = (FloatingActionButton) findViewById(R.id.fabInsertarSede);
+        //Accedemos al nodo sede de firebase
         mDatabase = FirebaseDatabase.getInstance().getReference("sede");
         ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -138,37 +143,37 @@ public class SedeActivity extends AppCompatActivity {
                         if(entryUsuario.getKey().equals(u.getId()) || Constants.ID_ADMIN.equals(u.getId())){
 
 
-                    //Al objeto sede le obtengo el HasMap de poblacion
-                    for (Map.Entry<String, Boolean> entry : sede.getPoblacion().entrySet()) {
+                            //Al objeto sede le obtengo el HasMap de poblacion
+                            for (Map.Entry<String, Boolean> entry : sede.getPoblacion().entrySet()) {
 
-                        String id_poblacion = entry.getKey();
+                                String id_poblacion = entry.getKey();
 
-                        FirebaseDatabase.getInstance().getReference("poblacion").child(id_poblacion).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Poblacion poblacion = dataSnapshot.getValue(Poblacion.class);
-                                sede.setPoblobj(poblacion);
+                                FirebaseDatabase.getInstance().getReference("poblacion").child(id_poblacion).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Poblacion poblacion = dataSnapshot.getValue(Poblacion.class);
+                                        sede.setPoblobj(poblacion);
 
-                                sedes_array.add(sede);
-                                SedeAdapter sedeadapter = new SedeAdapter(sedes_array);
-                                rvSede.setAdapter(sedeadapter);
+                                        sedes_array.add(sede);
+                                        SedeAdapter sedeadapter = new SedeAdapter(sedes_array);
+                                        rvSede.setAdapter(sedeadapter);
 
-                                if(sedes_array.size()==0){
-                                    rvSede.setVisibility(View.GONE);
-                                    emtpyTv.setVisibility(View.VISIBLE);
-                                }else{
-                                    rvSede.setVisibility(View.VISIBLE);
-                                    emtpyTv.setVisibility(View.GONE);
-                                }
+                                        if(sedes_array.size()==0){
+                                            rvSede.setVisibility(View.GONE);
+                                            emtpyTv.setVisibility(View.VISIBLE);
+                                        }else{
+                                            rvSede.setVisibility(View.VISIBLE);
+                                            emtpyTv.setVisibility(View.GONE);
+                                        }
 
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        Log.i("ERROR SEDE", databaseError.getMessage());
+                                    }
+                                });
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                Log.i("ERROR SEDE", databaseError.getMessage());
-                            }
-                        });
-                    }
 
                         }
                     }
@@ -187,6 +192,29 @@ public class SedeActivity extends AppCompatActivity {
         mDatabase.addValueEventListener(postListener);
     }
 
+    public void compruebaConexion(){
 
+        if(!isOnlineNet(this)){
+
+            Toast.makeText(SedeActivity.this, "No se ha podido conectar al servidor, revisa tu conexión a internet", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public Boolean isOnlineNet(Context context)
+    {
+        boolean isOnlineNet = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            // Si alguna red tiene conexión, se devuelve true
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                isOnlineNet = true;
+            }
+        }
+        return  isOnlineNet;
+    }
 
 }

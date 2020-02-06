@@ -30,13 +30,12 @@ import com.google.firebase.database.FirebaseDatabase;
 public class RegistroActivity extends AppCompatActivity {
 
     final static String EXTRA_USER = "USER";
-
     EditText etNombre, etEmail, etTelefono;
-    TextInputLayout etPassLayout, etPassRepLayout;
+    private TextInputLayout etPassLayout, etPassRepLayout;
     TextInputEditText etPassEtext, etPassRepEtext;
+    private ProgressDialog progressDialog;
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +63,11 @@ public class RegistroActivity extends AppCompatActivity {
         etPassLayout.setHintEnabled(false);
         etPassRepLayout.setHintEnabled(false);
 
-
-
-        //toggling the password view functionality
         etPassEtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean isFocused) {
                 if(!isFocused){
-                    etPassLayout.setPasswordVisibilityToggleEnabled(true);
+                    etPassLayout.setPasswordVisibilityToggleEnabled(false);
                 }else{
 
                     etPassEtext.addTextChangedListener(new TextWatcher() {
@@ -87,7 +83,7 @@ public class RegistroActivity extends AppCompatActivity {
                                 etPassLayout.setPasswordVisibilityToggleEnabled(true);
                             }
                             else{
-                                etPassLayout.setPasswordVisibilityToggleEnabled(true);
+                                etPassLayout.setPasswordVisibilityToggleEnabled(false);
                             }
                         }
 
@@ -103,8 +99,6 @@ public class RegistroActivity extends AppCompatActivity {
         });
 
 
-
-        //toggling the password view functionality
         etPassRepEtext.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean isFocused) {
@@ -112,7 +106,7 @@ public class RegistroActivity extends AppCompatActivity {
                     etPassRepLayout.setPasswordVisibilityToggleEnabled(false);
                 }else{
 
-                    etPassRepEtext.addTextChangedListener(new TextWatcher() {
+                    etPassEtext.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -121,7 +115,7 @@ public class RegistroActivity extends AppCompatActivity {
                         @Override
                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                            if(etPassRepEtext.getText().toString().length() > 0) {
+                            if(etPassEtext.getText().toString().length() > 0) {
                                 etPassRepLayout.setPasswordVisibilityToggleEnabled(true);
                             }
                             else{
@@ -144,17 +138,23 @@ public class RegistroActivity extends AppCompatActivity {
 
     public void clickRegistrar(View view) {
 
+        etPassLayout.setPasswordVisibilityToggleEnabled(false);
+        etPassRepLayout.setPasswordVisibilityToggleEnabled(false);
+
+        //Obtenemos los datos que ha insertado el usuario para el registro
         String nombre = etNombre.getText().toString();
         String email = etEmail.getText().toString();
         String telefono_str = etTelefono.getText().toString();
         String pass = etPassLayout.getEditText().getText().toString();
         String pass_rep = etPassRepLayout.getEditText().getText().toString();
 
+        //Comprobamos que los campos no estén vacíos
         if(TextUtils.isEmpty(nombre) || TextUtils.isEmpty(email) || TextUtils.isEmpty(telefono_str) ||
                 TextUtils.isEmpty(pass) || TextUtils.isEmpty(pass_rep)){
             Toast.makeText(getApplicationContext(),"Debes de rellenar todos los campos", Toast.LENGTH_LONG).show();
         }else{
 
+            //Si los campos no están vacíos comprobamos que los passwords coincidan
             if(pass.equals(pass_rep)){
                 int telefono = Integer.parseInt(telefono_str);
                 Usuario u = new Usuario(email,pass,nombre,telefono);
@@ -169,12 +169,11 @@ public class RegistroActivity extends AppCompatActivity {
 
     private void registroFirebase(final Usuario user){
 
-
-
         progressDialog.setMessage("Creando usuario..");
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
+        //Creamos el usuario a partir del módulo Auth de Firebase
         mAuth.createUserWithEmailAndPassword(user.getEmail(), user.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -183,6 +182,8 @@ public class RegistroActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                     user.setId(firebaseUser.getUid());
+
+                    //Accedemos al nodo usuarios de firebase
                     mDatabase.child("usuarios").child(firebaseUser.getUid()).setValue(user);
                     Toast.makeText(getApplicationContext(), "Se ha creado el usuario con éxito", Toast.LENGTH_LONG).show();
                     Intent i=new Intent(getApplicationContext(), MainActivity.class);
@@ -190,7 +191,6 @@ public class RegistroActivity extends AppCompatActivity {
                     startActivity(i);
                     finish();
                 }else{
-
 
                     progressDialog.dismiss();
 

@@ -15,15 +15,24 @@
     android:padding="16dp"
     android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/tvItemID"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAlignment="viewEnd"
+            android:text="TextView"
+            android:textColor="@color/md_grey_800"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+
 
     <TextView
-        android:id="@+id/tvItemID"
+        android:id="@+id/tvTipo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/md_grey_800"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:textAlignment="viewEnd"
+        android:textSize="22dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:text="TextView" />
 
     <TextView
@@ -31,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/md_grey_800"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:text="TextView" />
 
     <TextView
@@ -42,14 +51,6 @@
         android:layout_height="wrap_content"
         android:text="TextView" />
 
-    <TextView
-        android:id="@+id/tvTipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/md_grey_800"
-        android:textSize="22dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:text="TextView" />
 
 
     <CheckBox
@@ -62,6 +63,5 @@
         android:textSize="20sp">
 
     </CheckBox>
-
 </LinearLayout>
 </androidx.cardview.widget.CardView>
